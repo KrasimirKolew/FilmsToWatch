@@ -37,5 +37,7 @@ namespace FilmsToWatch.Data.Models
         [ForeignKey(nameof(FilmAdderId))]
         public IdentityUser FilmAdder { get; set; } = null!;
 
+        public IList<FilmWatcher> FilmsWatchers { get; set; } = new List<FilmWatcher>();
+
     }
 }
