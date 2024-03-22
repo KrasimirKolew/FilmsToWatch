@@ -77,7 +77,7 @@ namespace FilmsToWatch.Areas.Identity.Pages.Account
         }
 
 
-        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
+        public IActionResult OnGetAsync(string returnUrl = null)
         {
             if (User?.Identity != null && User.Identity.IsAuthenticated)
             {
