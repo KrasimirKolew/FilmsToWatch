@@ -31,6 +31,13 @@ namespace FilmsToWatch.Data.Models
         public Genre Genre { get; set; } = null!;
 
         [Required]
+        public int ActorId { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(ActorId))]
+        public Actor Actor { get; set; } = null!;
+
+        [Required]
         public string FilmAdderId { get; set; } = string.Empty;
 
         [Required]

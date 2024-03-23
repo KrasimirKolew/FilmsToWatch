@@ -12,5 +12,9 @@
         //Genre constants
         public const int GenreNameMinLen = 3;
         public const int GenreNameMaxLen = 20;
+
+        //Actor constants
+        public const int ActorNameMinLen = 4;
+        public const int ActorNameMaxLen = 50;
     }
 }
