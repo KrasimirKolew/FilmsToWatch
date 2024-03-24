@@ -16,6 +16,6 @@ namespace FilmsToWatch.Data.Models
         public int FilmId { get; set; }
 
         [ForeignKey(nameof(FilmId))]
-        public Film Films { get; set; } = null!;
+        public Film Film { get; set; } = null!;
     }
 }
