@@ -5,7 +5,7 @@ using static FilmsToWatch.Constants.DataConstants;
 
 namespace FilmsToWatch.Data.Models
 {
-    public class Films
+    public class Film
     {
         [Key]
         public int Id { get; set; }
@@ -45,6 +45,8 @@ namespace FilmsToWatch.Data.Models
         public IdentityUser FilmAdder { get; set; } = null!;
 
         public IList<FilmWatcher> FilmsWatchers { get; set; } = new List<FilmWatcher>();
+
+        public IList<Review> Reviews { get; set; } = new List<Review>();
 
     }
 }

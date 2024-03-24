@@ -16,5 +16,9 @@
         //Actor constants
         public const int ActorNameMinLen = 4;
         public const int ActorNameMaxLen = 50;
+
+        //Review constants
+        public const int ContentMinLen = 15;
+        public const int ContentMaxLen = 150;
     }
 }
