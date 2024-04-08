@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static FilmsToWatch.Constants.DataConstants;
 
 namespace FilmsToWatch.Models.FilmModels
 {
     public class FilmFormModel
     {
+        public int Id { get; set; }
 
         [Required(ErrorMessage = RequiredMesage)]
         [StringLength(TitleMaxLen,
@@ -15,10 +18,11 @@ namespace FilmsToWatch.Models.FilmModels
         [Display(Name = "Image")]
         public string MovieImage { get; set; } = string.Empty;
 
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
 
         [Required(ErrorMessage = RequiredMesage)]
         public string ReleaseYear { get; set; } = string.Empty;
-
 
         [Required(ErrorMessage = RequiredMesage)]
         [StringLength(DirectorMaxLen,
@@ -35,6 +39,7 @@ namespace FilmsToWatch.Models.FilmModels
         [Display(Name = "Actor")]
         public int ActorId { get; set; }
 
+        public MultiSelectList ? MultiGenreList { get; set; }
 
         public IEnumerable<FilmGenreServiceModel> Genres { get; set; } =
             new List<FilmGenreServiceModel>();
