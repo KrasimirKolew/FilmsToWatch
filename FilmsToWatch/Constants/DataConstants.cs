@@ -20,5 +20,10 @@
         //Review constants
         public const int ContentMinLen = 15;
         public const int ContentMaxLen = 150;
+
+        //massage constants
+        public const string RequiredMesage = "The {0} field is required";
+        public const string LenghtMessage = "The {0} field must be between {1} and {2} characters long";
+
     }
 }
