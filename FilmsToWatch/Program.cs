@@ -1,10 +1,16 @@
 using FilmsToWatch.Data;
+using FilmsToWatch.Repositories.Contracts;
+using FilmsToWatch.Repositories.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<IFilmService,FilmService>();
+builder.Services.AddScoped<IActorService, ActorService>();
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseSqlServer(connectionString));
