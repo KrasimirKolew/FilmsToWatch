@@ -4,10 +4,12 @@ namespace FilmsToWatch.Repositories.Contracts
 {
     public interface IGenreService
     {
-        bool Add(Genre model);
-        bool Update(Genre model);
-        Genre GetById(int id);
-        bool Delete(int id);
-        IQueryable<Genre> List();
+        Task<bool> AddAsync(Genre model);
+        Task<bool> UpdateAsync(Genre model);
+        Task<Genre> GetByIdAsync(int id);
+        Task<bool> DeleteAsync(int id);
+        //IQueryable<Genre> List();
+
+        Task<List<Genre>> ListAsync();
     }
 }

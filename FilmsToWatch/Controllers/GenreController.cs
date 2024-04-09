@@ -21,11 +21,12 @@ namespace FilmsToWatch.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Genre model)
+        public async Task<IActionResult> Add(Genre model)
         {
             if (!ModelState.IsValid)
                 return View(model);
-            var result = _genreService.Add(model);
+
+            var result = await _genreService.AddAsync(model);
             if (result)
             {
                 TempData["msg"] = "Added Successfully";
@@ -38,39 +39,45 @@ namespace FilmsToWatch.Controllers
             }
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var data = _genreService.GetById(id);
+            var data = await _genreService.GetByIdAsync(id); // Assuming GetByIdAsync is the async version
+            if (data == null)
+            {
+                return NotFound();
+            }
             return View(data);
         }
 
         [HttpPost]
-        public IActionResult Update(Genre model)
+        public async Task<IActionResult> Update(Genre model)
         {
             if (!ModelState.IsValid)
-                return View(model);
-            var result = _genreService.Update(model);
+                return View("Edit", model); // Make sure to return to the "Edit" view if validation fails
+
+            var result = await _genreService.UpdateAsync(model); // Assuming UpdateAsync is the async version
             if (result)
             {
-                TempData["msg"] = "Added Successfully";
-                return RedirectToAction(nameof(GenreList));
+                TempData["msg"] = "Updated Successfully";
+                return RedirectToAction(nameof(GenreList)); // Assuming GenreList is an action method for listing genres
             }
             else
             {
                 TempData["msg"] = "Error on server side";
-                return View(model);
+                return View("Edit", model); // Return to the "Edit" view with the model in case of failure
             }
         }
 
-        public IActionResult GenreList()
+        public async Task<IActionResult> GenreList()
         {
-            var data = this._genreService.List().ToList();
-            return View(data);
+            var genres = await _genreService.ListAsync();
+            return View(genres);
         }
 
-        public IActionResult Delete(int id)
+       
+        public async Task<IActionResult> Delete(int id)
         {
-            var result = _genreService.Delete(id);
+            var result = await _genreService.DeleteAsync(id);
             return RedirectToAction(nameof(GenreList));
         }
     }
