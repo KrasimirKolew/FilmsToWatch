@@ -1,6 +1,8 @@
-﻿namespace FilmsToWatch.Repositories.Services
+﻿using FilmsToWatch.Repositories.Contracts;
+
+namespace FilmsToWatch.Repositories.Services
 {
-    public class ActorService
+    public class ActorService : IActorService
     {
     }
 }
