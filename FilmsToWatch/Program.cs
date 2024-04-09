@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IFilmService,FilmService>();
 builder.Services.AddScoped<IActorService, ActorService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
