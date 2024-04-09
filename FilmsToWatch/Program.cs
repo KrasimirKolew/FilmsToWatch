@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IFilmService,FilmService>();
 builder.Services.AddScoped<IActorService, ActorService>();
