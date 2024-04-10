@@ -34,12 +34,13 @@ namespace FilmsToWatch.Models.FilmModels
         [Display(Name = "Genre")]
         public int GenreId { get; set; }
 
-
         [Required(ErrorMessage = RequiredMesage)]
         [Display(Name = "Actor")]
         public int ActorId { get; set; }
 
         public MultiSelectList ? MultiGenreList { get; set; }
+
+        public IEnumerable<SelectListItem>? GenreList { get; set; }
 
         public IEnumerable<FilmGenreServiceModel> Genres { get; set; } =
             new List<FilmGenreServiceModel>();

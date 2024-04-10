@@ -12,11 +12,15 @@ builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IFilmService,FilmService>();
 builder.Services.AddScoped<IActorService, ActorService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IFileService, FileService>();
+
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+//builder.Services.AddScoped<IRepository, Repository>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
