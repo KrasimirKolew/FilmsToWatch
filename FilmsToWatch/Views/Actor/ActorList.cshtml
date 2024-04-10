@@ -1,0 +1,29 @@
+﻿@model IEnumerable<FilmsToWatch.Data.Models.Actor>
+@{
+}
+
+<div class="tbl-container">
+    <h2>Actors</h2>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>FilmsInvolved</th>
+            <th>Action</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ActorName</td>
+                <td>@item.FilmsInvolve</td>
+                <td>
+                    <a href="/Actor/Edit?id=@item.Id" class="btn btn-default">Edit</a>
+                    <a onclick="return window.confirm('Are you sure?')" href="/Actor/Delete?id=@item.Id" class="btn btn-danger">Del</a>
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="input-container">
+        <a href="/Actor/Add" class="btn btn-sec">Back</a>
+    </div>
+</div>

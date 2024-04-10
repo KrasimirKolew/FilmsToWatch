@@ -1,0 +1,34 @@
+﻿@model FilmsToWatch.Data.Models.Actor
+@{
+}
+
+<form class="w-40" asp-action="Add" method="post">
+    <h2 class="pb-10">Add Actor</h2>
+    <div class="input-container">
+        <label asp-for="ActorName" class="w-40">ActorName</label>
+        <input type="text" class="input" asp-for="ActorName">
+    </div>
+    <div class="message-box pd-x-28 error">
+        <span asp-validation-for="ActorName"> </span>
+    </div>
+
+    <div class="input-container">
+        <label asp-for="FilmsInvolve" class="w-40">FilmsInvolve</label>
+        <input type="text" class="input" asp-for="FilmsInvolve">
+    </div>
+    <div class="message-box pd-x-28 error">
+        <span asp-validation-for="FilmsInvolve"> </span>
+    </div>
+
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert mb-1">
+            @TempData["msg"]
+        </div>
+    }
+
+    <div class="input-container">
+        <button class="btn btn-default" type="submit">Save</button>
+        <a class="btn btn-sec" href="/Actor/ActorList">All records</a>
+    </div>
+</form>
