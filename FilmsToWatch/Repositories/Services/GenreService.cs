@@ -24,7 +24,6 @@ namespace FilmsToWatch.Repositories.Services
             }
             catch (Exception ex)
             {
-                // Consider logging the exception details to help with debugging
                 return false;
             }
         }
@@ -33,26 +32,20 @@ namespace FilmsToWatch.Repositories.Services
         {
             try
             {
-                var data = await this.GetByIdAsync(id); // Make sure to await the result
+                var data = await this.GetByIdAsync(id);
                 if (data == null)
                 {
                     return false;
                 }
                 context.Genre.Remove(data);
-                await context.SaveChangesAsync(); // Use SaveChangesAsync to save asynchronously
+                await context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)
             {
-                // Consider logging the exception here
                 return false;
             }
         }
-
-        //public Genre GetById(int id)
-        //{
-        //    return context.Genre.Find(id);
-        //}
 
         public async Task<Genre> GetByIdAsync(int id)
         {
@@ -60,43 +53,22 @@ namespace FilmsToWatch.Repositories.Services
             return genre;
         }
 
-        //public IQueryable<Genre> List()
-        //{
-        //    var data = context.Genre.AsQueryable();
-        //    return data;
-        //}
-
         public async Task<List<Genre>> ListAsync()
         {
             var data = await context.Genre.ToListAsync();
             return data;
         }
 
-        //public bool Update(Genre model)
-        //{
-        //    try
-        //    {
-        //        context.Genre.Update(model);
-        //        context.SaveChanges();
-        //        return true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return false;
-        //    }
-        //}
-
         public async Task<bool> UpdateAsync(Genre model)
         {
             try
             {
-                context.Genre.Update(model); // No async equivalent needed for Update
-                await context.SaveChangesAsync(); // Asynchronously save the changes
+                context.Genre.Update(model);
+                await context.SaveChangesAsync(); 
                 return true;
             }
             catch (Exception ex)
             {
-                // Optionally log the exception here
                 return false;
             }
         }
