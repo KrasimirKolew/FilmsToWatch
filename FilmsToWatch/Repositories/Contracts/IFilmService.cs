@@ -12,6 +12,5 @@ namespace FilmsToWatch.Repositories.Contracts
         Task<IEnumerable<FilmGenreServiceModel>> AllGenresAsync();
         Task<IEnumerable<FilmActorServiceModel>> AllActorsAsync();
 
-        //AllGenresAsync, AllGenresAsync
     }
 }
