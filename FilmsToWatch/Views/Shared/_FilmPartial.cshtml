@@ -1,0 +1,17 @@
+﻿@model FilmsToWatch.Models.FilmModels.FilmServiceModel
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <div class="movie-image">
+            <img src="/Uploads/@Model.MovieImage" class="mx-auto d-block" style="width: 100%; height: auto; max-width: 200px; max-height: 300px;">
+        </div>
+        <div class="card-body text-center">
+            <h4>@Model.Title</h4>
+            <h6>Release Year: <b>@Model.ReleaseYear</b></h6>
+            <h6>Director: <b>@Model.Director</b></h6>
+            <br />
+            <a asp-controller="House" asp-action="Details" asp-route-id="@Model.Id"
+               class="btn btn-success">Details</a>
+        </div>
+    </div>
+</div>

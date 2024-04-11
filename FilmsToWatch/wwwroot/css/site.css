@@ -16,3 +16,10 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.movie-image img {
+    width: 100%;
+    height: auto;
+    max-width: 200px;
+    max-height: 300px;
+}

@@ -2,6 +2,7 @@
 using FilmsToWatch.Data.Models;
 using FilmsToWatch.Models.FilmModels;
 using FilmsToWatch.Repositories.Contracts;
+using FilmsToWatch.Repositories.Extension;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -47,6 +48,54 @@ namespace FilmsToWatch.Repositories.Services
             return actors;
         }
 
+        public async Task<IEnumerable<string>> AllActorsNamesAsync()
+        {
+            var actorName = await context.Actors
+                .Select(a => a.ActorName)
+                .Distinct()
+                .ToListAsync();
+
+            return actorName;
+        }
+
+        public async Task<FilmQueryServiceModel> AllAsync(string? genre = null, string? actor = null, string? searchTerm = null, int currentPage = 1, int filmsPerPage = 1)
+        {
+            var filmsToShow = context.Films.AsQueryable();
+
+            if (genre != null)
+            {
+                filmsToShow = filmsToShow
+                    .Where(g=>g.Genre.GenreName == genre);
+            }
+
+            if (actor != null)
+            {
+                filmsToShow = filmsToShow
+                    .Where(a => a.Actor.ActorName == actor);
+            }
+
+            if (searchTerm != null)
+            {
+                string normalizeSearchTerm = searchTerm.ToLower();
+
+                filmsToShow = filmsToShow.Where(a=>a.Title.ToLower().Contains(searchTerm));
+            }
+
+            var films = await filmsToShow
+                .Skip((currentPage - 1) * filmsPerPage)
+                .Take(filmsPerPage)
+                .ProjectToFilmServiceModel()
+                .ToListAsync();
+
+            int totalFilms = await filmsToShow.CountAsync();
+
+            return new FilmQueryServiceModel
+            {
+                Films = films,
+                TotalFilmsCount = totalFilms
+            };
+        }
+
         public async Task<IEnumerable<FilmGenreServiceModel>> AllGenresAsync()
         {
             var genres = await context.Genre
@@ -58,6 +107,16 @@ namespace FilmsToWatch.Repositories.Services
                   .ToListAsync();
 
             return genres;
+        }
+
+        public async Task<IEnumerable<string>> AllGenresNamesAsync()
+        {
+            var genreName = await context.Genre
+                .Select(g => g.GenreName)
+                .Distinct()
+                .ToListAsync();
+
+            return genreName;
         }
 
         public Task<FilmFormModel> EditFilmAsync(FilmFormModel model)

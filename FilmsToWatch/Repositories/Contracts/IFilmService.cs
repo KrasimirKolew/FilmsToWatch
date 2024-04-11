@@ -7,7 +7,17 @@ namespace FilmsToWatch.Repositories.Contracts
     {
         Task<int> AddFilmAsync(FilmFormModel model);
         Task<FilmFormModel> EditFilmAsync(FilmFormModel model);
-        //Task<IEnumerable<Film>> GetAllFilmsAsync();
+        
+        Task<FilmQueryServiceModel> AllAsync(
+            string? genre = null, 
+            string? actor = null,
+            string? searchTerm = null,
+            int currentPage = 1,
+            int filmsPerPage = 1);
+
+        Task<IEnumerable<string>> AllGenresNamesAsync();
+
+        Task<IEnumerable<string>> AllActorsNamesAsync();
 
         Task<IEnumerable<FilmGenreServiceModel>> AllGenresAsync();
         Task<IEnumerable<FilmActorServiceModel>> AllActorsAsync();

@@ -23,6 +23,26 @@ namespace FilmsToWatch.Controllers
             _genreService = genService;
             _fileService = fileService;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> All([FromQuery]AllFilmsQueryModel query)
+        {
+            var model = await _filmService.AllAsync(
+                query.Genre,
+                query.Actor,
+                query.SearchTerm,
+                query.CurrentPage,
+                query.FilmsPerPage);
+
+            query.TotalFilmsCount = model.TotalFilmsCount;
+            query.Films = model.Films;
+            query.Genres = await _filmService.AllGenresNamesAsync();
+            query.Actors = await _filmService.AllActorsNamesAsync();
+
+            return View(query);
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> Add()
         {
