@@ -1,7 +1,9 @@
 ﻿using FilmsToWatch.Data.Models;
+using FilmsToWatch.Extensions;
 using FilmsToWatch.Models.FilmModels;
 using FilmsToWatch.Repositories.Contracts;
 using FilmsToWatch.Repositories.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -27,7 +29,7 @@ namespace FilmsToWatch.Controllers
             var model = new FilmFormModel()
             {
                 Genres = await _filmService.AllGenresAsync(),
-                Actors = await _filmService.AllActorsAsync()    
+                Actors = await _filmService.AllActorsAsync()
             };
 
             return View(model);

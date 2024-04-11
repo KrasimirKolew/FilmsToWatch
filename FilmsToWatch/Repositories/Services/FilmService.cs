@@ -26,7 +26,7 @@ namespace FilmsToWatch.Repositories.Services
                 Director = model.Director,
                 GenreId = model.GenreId,
                 ActorId = model.ActorId,
-                FilmAdderId = "44be44ab-fc04-49e1-8284-0387c1404a2e"
+                FilmAdderId = "fd0dba54-c56f-4bc0-8c3c-6acce711f0e4"
             };
             context.Add(film);
             await context.SaveChangesAsync();
