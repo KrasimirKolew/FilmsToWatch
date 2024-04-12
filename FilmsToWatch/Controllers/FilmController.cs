@@ -6,6 +6,7 @@ using FilmsToWatch.Repositories.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace FilmsToWatch.Controllers
 {
@@ -41,7 +42,6 @@ namespace FilmsToWatch.Controllers
 
             return View(query);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> Add()
@@ -85,6 +85,54 @@ namespace FilmsToWatch.Controllers
 
             return RedirectToAction(nameof(Add));
 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MarkAsWatched(int filmId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            try
+            {
+                await _filmService.MarkAsWatchedAsync(filmId, userId);
+                return RedirectToAction(nameof(WatchedFilms));
+            }
+            catch (InvalidOperationException ex)
+            {
+                TempData["ErrorMessage"] = "You have already marked this film as watched.";
+                return RedirectToAction(nameof(WatchedFilms));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while marking the film as watched.");
+                return View(); // Return to the current view or an error view.
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> WatchedFilms()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            try
+            {
+                var watchedFilms = await _filmService.GetWatchedFilmsAsync(userId);
+                return View(watchedFilms);
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
         }
     }
 }
