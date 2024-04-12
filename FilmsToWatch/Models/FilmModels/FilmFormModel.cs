@@ -39,6 +39,7 @@ namespace FilmsToWatch.Models.FilmModels
         public int ActorId { get; set; }
 
         public MultiSelectList ? MultiGenreList { get; set; }
+        public MultiSelectList ? MultiActorList { get; set; }
 
         public IEnumerable<SelectListItem>? GenreList { get; set; }
 
