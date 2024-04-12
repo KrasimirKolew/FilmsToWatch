@@ -1,0 +1,31 @@
+﻿@model IEnumerable<FilmsToWatch.Data.Models.Film>
+
+<h2>Films Watched by Me</h2>
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var film in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="movie-image">
+                        <img src="/Uploads/@Html.DisplayFor(modelItem => film.MovieImage)" class="mx-auto d-block" style="width: 100%; height: auto; max-width: 200px; max-height: 300px;">
+                    </div>
+                    <div class="card-body text-center">
+                        <h4>@Html.DisplayFor(modelItem => film.Title)</h4>
+                        <h6>Release Year: <b>@Html.DisplayFor(modelItem => film.ReleaseYear)</b></h6>
+                        <h6>Director: <b>@Html.DisplayFor(modelItem => film.Director)</b></h6>
+                        <br />
+                        <a asp-controller="Film" asp-action="Details"
+                           class="btn btn-info">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>You have not watched any films yet.</p>
+}
