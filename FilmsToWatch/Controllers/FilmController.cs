@@ -87,6 +87,67 @@ namespace FilmsToWatch.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var film = await _filmService.GetFilmByIdAsync(id);
+
+            if (film == null)
+            {
+                return BadRequest();
+            }
+
+            var model = await _filmService.GetFilmFormModelByIdAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, FilmFormModel model)
+        {
+
+            if (await _filmService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await _filmService.GenreExistsAsync(model.GenreId) == false)
+            {
+                ModelState.AddModelError(nameof(model.GenreId), "Genre does not exist");
+            }
+
+            if (await _filmService.ActorExistsAsync(model.ActorId) == false)
+            {
+                ModelState.AddModelError(nameof(model.ActorId), "Actor does not exist");
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                model.Genres = await _filmService.AllGenresAsync();
+                model.Actors = await _filmService.AllActorsAsync();
+
+                return View(model);
+            }
+
+            if (model.ImageFile != null)
+            {
+                var fileReult = this._fileService.SaveImage(model.ImageFile);
+                if (fileReult.Item1 == 0)
+                {
+                    TempData["msg"] = "File could not saved";
+                    return View(model);
+                }
+                var imageName = fileReult.Item2;
+                model.MovieImage = imageName;
+            }
+
+
+            await _filmService.EditFilmAsync(id, model);
+
+            return RedirectToAction(nameof(All));
+
+        }
+
         [HttpPost]
         public async Task<IActionResult> MarkAsWatched(int filmId)
         {
