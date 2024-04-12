@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace FilmsToWatch.Controllers
 {
-    public class FilmController : Controller
+    public class FilmController : BaseController
     {
         private readonly IFilmService _filmService;
         private readonly IGenreService _genreService;

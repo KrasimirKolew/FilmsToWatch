@@ -6,8 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FilmsToWatch.Controllers
 {
-    [Authorize]
-    public class GenreController : Controller
+    public class GenreController : BaseController
     {
         private readonly IGenreService _genreService;
 

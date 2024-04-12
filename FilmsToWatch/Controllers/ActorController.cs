@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FilmsToWatch.Controllers
 {
-    public class ActorController : Controller
+    public class ActorController : BaseController
     {
         private readonly IActorService _actorService;
 

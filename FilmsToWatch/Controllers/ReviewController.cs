@@ -2,7 +2,7 @@
 
 namespace FilmsToWatch.Controllers
 {
-    public class ReviewController : Controller
+    public class ReviewController : BaseController
     {
         public IActionResult Index()
         {
