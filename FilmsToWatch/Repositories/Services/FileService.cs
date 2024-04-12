@@ -1,4 +1,5 @@
 ﻿using FilmsToWatch.Repositories.Contracts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FilmsToWatch.Repositories.Services
 {

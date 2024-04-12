@@ -5,6 +5,7 @@ using FilmsToWatch.Repositories.Contracts;
 using FilmsToWatch.Repositories.Extension;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Threading.Tasks.Sources;
 
 namespace FilmsToWatch.Repositories.Services
 {
@@ -15,6 +16,11 @@ namespace FilmsToWatch.Repositories.Services
         public FilmService(ApplicationDbContext _context)
         {
             context = _context;
+        }
+
+        public async Task<bool> ActorExistsAsync(int actorId)
+        {
+            return await context.Actors.AnyAsync(a=>a.Id == actorId);
         }
 
         public async Task<int> AddFilmAsync(FilmFormModel model)
@@ -119,10 +125,9 @@ namespace FilmsToWatch.Repositories.Services
             return genreName;
         }
 
-        public async Task<FilmFormModel> EditFilmAsync(FilmFormModel model)
+        public async Task EditFilmAsync(int filmId, FilmFormModel model)
         {
-            // Retrieve the film entity from the database by its ID.
-            var film = await context.Films.FindAsync(model.Id);
+            var film = await context.Films.FindAsync(filmId);
 
             if (film == null)
             {
@@ -135,11 +140,48 @@ namespace FilmsToWatch.Repositories.Services
             film.Director = model.Director;
             film.GenreId = model.GenreId;
             film.ActorId = model.ActorId;
-
-            context.Films.Update(film);
+            //context.Films.Update(film);
             await context.SaveChangesAsync();
+        }
 
-            return model;
+        public async Task<bool> ExistsAsync(int id)
+        {
+            return await context.Films.AnyAsync(f => f.Id == id);
+        }
+
+        public async Task<bool> GenreExistsAsync(int genreId)
+        {
+            return await context.Genre.AnyAsync(g=> g.Id == genreId);
+        }
+
+        public async Task<Film> GetFilmByIdAsync(int id)
+        {
+            return await context.Films.FindAsync(id);
+
+        }
+
+        public async Task<FilmFormModel?> GetFilmFormModelByIdAsync(int id)
+        {
+            var film = await context.Films
+                .Where(f => f.Id == id)
+                .Select(f => new FilmFormModel
+                {
+                    Title = f.Title,
+                    MovieImage = f.MovieImage,
+                    ReleaseYear = f.ReleaseYear,
+                    Director = f.Director,
+                    GenreId = f.GenreId,
+                    ActorId = f.ActorId,
+                })
+                .FirstOrDefaultAsync();
+
+            if (film != null)
+            {
+                film.Genres = await AllGenresAsync();
+                film.Actors = await AllActorsAsync();
+            }
+
+            return film;
         }
 
         public async Task<IEnumerable<Film>> GetWatchedFilmsAsync(string userId)
