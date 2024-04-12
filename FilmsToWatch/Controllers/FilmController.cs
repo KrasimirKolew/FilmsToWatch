@@ -26,6 +26,19 @@ namespace FilmsToWatch.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            if (await _filmService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            var model = await _filmService.FilmDetailsByIdAsync(id);
+
+            return View(model);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> All([FromQuery]AllFilmsQueryModel query)
         {
             var model = await _filmService.AllAsync(
