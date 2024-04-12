@@ -149,6 +149,24 @@ namespace FilmsToWatch.Repositories.Services
             return await context.Films.AnyAsync(f => f.Id == id);
         }
 
+        public async Task<FilmDetailsServiceModel> FilmDetailsByIdAsync(int id)
+        {
+            return await context.Films
+                .Where(f=>f.Id == id)
+                .Select(f => new FilmDetailsServiceModel
+                {
+                    Id = f.Id,
+                    Title = f.Title,
+                    Genre = f.Genre.GenreName,
+                    Actor = f.Actor.ActorName,
+                    MovieImage = f.MovieImage,
+                    ReleaseYear = f.ReleaseYear,
+                    Director = f.Director
+                })
+                .FirstAsync();
+
+        }
+
         public async Task<bool> GenreExistsAsync(int genreId)
         {
             return await context.Genre.AnyAsync(g=> g.Id == genreId);
