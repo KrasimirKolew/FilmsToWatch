@@ -123,5 +123,37 @@ namespace FilmsToWatch.Repositories.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<Film>> GetWatchedFilmsAsync(string userId)
+        {
+            var watchedFilms = await context.FilmWatchers
+            .Where(fw => fw.HelperId == userId)
+            .Select(fw => fw.Film)
+            .ToListAsync();
+
+            return watchedFilms;
+        }
+
+        public async Task MarkAsWatchedAsync(int filmId, string userId)
+        {
+            var existingWatcher = await context.FilmWatchers
+            .FirstOrDefaultAsync(fw => fw.FilmId == filmId && fw.HelperId == userId);
+
+            if (existingWatcher != null)
+            {
+                // The film is already marked as watched, so you might want to handle this case.
+                throw new InvalidOperationException("The user has already marked this film as watched.");
+            }
+
+            // If not, add a new FilmWatcher entry to mark the film as watched.
+            var filmWatcher = new FilmWatcher
+            {
+                HelperId = userId,
+                FilmId = filmId
+            };
+
+            context.FilmWatchers.Add(filmWatcher);
+            await context.SaveChangesAsync();
+        }
     }
 }

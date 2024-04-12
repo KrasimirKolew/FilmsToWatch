@@ -21,6 +21,7 @@ namespace FilmsToWatch.Repositories.Contracts
 
         Task<IEnumerable<FilmGenreServiceModel>> AllGenresAsync();
         Task<IEnumerable<FilmActorServiceModel>> AllActorsAsync();
-
+        Task MarkAsWatchedAsync(int filmId, string userId);
+        Task<IEnumerable<Film>> GetWatchedFilmsAsync(string userId);
     }
 }
