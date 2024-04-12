@@ -119,9 +119,27 @@ namespace FilmsToWatch.Repositories.Services
             return genreName;
         }
 
-        public Task<FilmFormModel> EditFilmAsync(FilmFormModel model)
+        public async Task<FilmFormModel> EditFilmAsync(FilmFormModel model)
         {
-            throw new NotImplementedException();
+            // Retrieve the film entity from the database by its ID.
+            var film = await context.Films.FindAsync(model.Id);
+
+            if (film == null)
+            {
+                throw new KeyNotFoundException($"Film with ID {model.Id} not found.");
+            }
+
+            film.Title = model.Title;
+            film.MovieImage = model.MovieImage;
+            film.ReleaseYear = model.ReleaseYear;
+            film.Director = model.Director;
+            film.GenreId = model.GenreId;
+            film.ActorId = model.ActorId;
+
+            context.Films.Update(film);
+            await context.SaveChangesAsync();
+
+            return model;
         }
 
         public async Task<IEnumerable<Film>> GetWatchedFilmsAsync(string userId)
