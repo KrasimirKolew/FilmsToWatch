@@ -94,9 +94,7 @@ namespace FilmsToWatch.Repositories.Services
                 throw new KeyNotFoundException($"Review with ID {model.Id} not found.");
             }
 
-            //review.Id = reviewId;
             review.Content = model.Content;
-            //review.UserId = model.UserId;
 
             await context.SaveChangesAsync();
             return review.FilmId;

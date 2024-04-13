@@ -40,7 +40,7 @@ namespace FilmsToWatch.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            var data = await _genreService.GetByIdAsync(id); // Assuming GetByIdAsync is the async version
+            var data = await _genreService.GetByIdAsync(id);
             if (data == null)
             {
                 return NotFound();
@@ -52,18 +52,18 @@ namespace FilmsToWatch.Controllers
         public async Task<IActionResult> Update(Genre model)
         {
             if (!ModelState.IsValid)
-                return View("Edit", model); // Make sure to return to the "Edit" view if validation fails
+                return View("Edit", model);
 
-            var result = await _genreService.UpdateAsync(model); // Assuming UpdateAsync is the async version
+            var result = await _genreService.UpdateAsync(model);
             if (result)
             {
                 TempData["msg"] = "Updated Successfully";
-                return RedirectToAction(nameof(GenreList)); // Assuming GenreList is an action method for listing genres
+                return RedirectToAction(nameof(GenreList));
             }
             else
             {
                 TempData["msg"] = "Error on server side";
-                return View("Edit", model); // Return to the "Edit" view with the model in case of failure
+                return View("Edit", model); 
             }
         }
 

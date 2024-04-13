@@ -8,8 +8,6 @@ namespace FilmsToWatch.Repositories.Contracts
         Task<bool> UpdateAsync(Genre model);
         Task<Genre> GetByIdAsync(int id);
         Task<bool> DeleteAsync(int id);
-        //IQueryable<Genre> List();
-
         Task<List<Genre>> ListAsync();
     }
 }

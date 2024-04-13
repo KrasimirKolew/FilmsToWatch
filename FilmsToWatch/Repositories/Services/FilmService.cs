@@ -140,7 +140,6 @@ namespace FilmsToWatch.Repositories.Services
             film.Director = model.Director;
             film.GenreId = model.GenreId;
             film.ActorId = model.ActorId;
-            //context.Films.Update(film);
             await context.SaveChangesAsync();
         }
 

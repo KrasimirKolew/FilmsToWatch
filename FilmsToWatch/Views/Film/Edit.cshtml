@@ -23,21 +23,6 @@
         <span asp-validation-for="ImageFile"> </span>
     </div>
 
-
-@*     <div class="input-container">
-        <label asp-for="@Model.GenreId" class="form-label-add-edit">Genre</label>
-        <select asp-for="@Model.GenreId" class="form-control" aria-required="true">
-            @foreach (var type in Model.Genres)
-            {
-                <option value="@type.Id">@type.Name</option>
-            }
-        </select>
-        <span asp-validation-for="@Model.GenreId" class="text-danger"></span>
-    </div>
-    <div class="message-box pd-x-28 error">
-        <span asp-validation-for="Genres"> </span>
-    </div> *@
-
     <div class="form-group">
         <label asp-for="GenreId"></label>
         <select asp-for="GenreId" class="form-control">
