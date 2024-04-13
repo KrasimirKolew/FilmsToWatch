@@ -1,0 +1,22 @@
+﻿@model FilmsToWatch.Models.ReviewModels.ReviewCreateViewModel
+@{
+}
+<form class="w-40" asp-action="Edit" method="post">
+    <h2 class="pb-10">Add Review</h2>
+    <div class="input-container">
+        <label asp-for="Content" class="w-40">Review</label>
+        <input type="text" class="input" asp-for="Content" placeholder="Comment Text">
+    </div>
+    <div class="message-box pd-x-28 error">
+        <span asp-validation-for="Content"> </span>
+    </div>
+
+    <div class="input-container">
+        <button class="btn btn-default" type="submit">Save</button>
+        <a class="btn btn-sec" href="/Review/All">All records</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

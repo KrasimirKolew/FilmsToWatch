@@ -1,0 +1,43 @@
+﻿@model IEnumerable<FilmsToWatch.Models.ReviewModels.ReviewViewModel>
+
+@{
+    ViewBag.Title = "Reviews Page";
+    var eventId = ViewBag.Id;
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Review</th>
+                <th>Posted By</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var review in Model)
+            {
+                <tr>
+                    <td>@review.Content</td>
+                    <td>@review.UserName</td>
+                    @if (User.Identity.IsAuthenticated && review.UserName == User.Identity.Name)
+                    {
+                        <td>
+                            <a asp-controller="Review" asp-action="Edit" asp-route-Id="@review.Id" asp-route-filmId="@review.FilmId" class="btn btn-primary">Edit</a>
+                            <a asp-controller="Review" asp-action="Delete" asp-route-Id="@review.Id" asp-route-filmId="@review.FilmId" class="btn btn-danger">Delete</a>
+                            @* <a onclick="return window.confirm('Are you sure?')" href="/Review/Delete?id=@review.Id" class="btn btn-danger">Del</a> *@
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No comments available for this event.</p>
+}

@@ -17,3 +17,9 @@
 <div class="w-80 m-auto">
     <a href="/Film/All" class="btn btn-default">Back</a>
 </div>
+<div class="w-80 m-auto">  
+    <a asp-controller="Review" asp-action="Create" asp-route-Id="@Model.Id" class="btn btn-primary">Add Review</a>   
+</div>
+<div class="w-80 m-auto">
+    <a asp-controller="Review" asp-action="All" asp-route-Id="@Model.Id" class="btn btn-primary">All Review</a>
+</div>
