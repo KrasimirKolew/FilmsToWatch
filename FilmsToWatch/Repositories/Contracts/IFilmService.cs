@@ -31,5 +31,9 @@ namespace FilmsToWatch.Repositories.Contracts
         Task<IEnumerable<Film>> GetWatchedFilmsAsync(string userId);
 
         Task<FilmDetailsServiceModel> FilmDetailsByIdAsync(int id);
+
+        //iztrii ako ne stane
+        Task<bool> FilmHasBeenWatched(string userId, int filmId);
+
     }
 }

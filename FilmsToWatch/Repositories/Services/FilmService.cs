@@ -167,6 +167,17 @@ namespace FilmsToWatch.Repositories.Services
 
         }
 
+        //addon
+        public async Task<bool> FilmHasBeenWatched(string userId, int filmId)
+        {
+            var watchedFilms = await context.FilmWatchers
+            .Where(fw => fw.HelperId == userId && fw.FilmId == filmId)
+            .Select(fw => fw.Film)
+            .ToListAsync();
+           
+            return watchedFilms.Count > 0;            
+        }
+
         public async Task<bool> GenreExistsAsync(int genreId)
         {
             return await context.Genre.AnyAsync(g=> g.Id == genreId);
