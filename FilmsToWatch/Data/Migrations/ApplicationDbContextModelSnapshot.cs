@@ -40,7 +40,7 @@ namespace FilmsToWatch.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actors");
+                    b.ToTable("Actors", (string)null);
                 });
 
             modelBuilder.Entity("FilmsToWatch.Data.Models.Film", b =>
@@ -87,7 +87,7 @@ namespace FilmsToWatch.Data.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("Films");
+                    b.ToTable("Films", (string)null);
                 });
 
             modelBuilder.Entity("FilmsToWatch.Data.Models.FilmWatcher", b =>
@@ -102,7 +102,7 @@ namespace FilmsToWatch.Data.Migrations
 
                     b.HasIndex("HelperId");
 
-                    b.ToTable("FilmWatchers");
+                    b.ToTable("FilmWatchers", (string)null);
                 });
 
             modelBuilder.Entity("FilmsToWatch.Data.Models.Genre", b =>
@@ -120,7 +120,7 @@ namespace FilmsToWatch.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genre");
+                    b.ToTable("Genre", (string)null);
 
                     b.HasData(
                         new
@@ -166,7 +166,7 @@ namespace FilmsToWatch.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

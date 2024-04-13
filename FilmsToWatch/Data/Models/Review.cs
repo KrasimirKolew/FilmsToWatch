@@ -10,6 +10,7 @@ namespace FilmsToWatch.Data.Models
     {
         public int Id { get; set; }
 
+        [Required]
         [MaxLength(ContentMaxLen)]
         public string Content { get; set; } = string.Empty;
 
