@@ -23,7 +23,6 @@
   <ItemGroup>
     <Folder Include="Models\GenreModels\" />
     <Folder Include="Models\ActorModels\" />
-    <Folder Include="Models\ReviewModels\" />
     <Folder Include="Views\Review\" />
   </ItemGroup>
 
