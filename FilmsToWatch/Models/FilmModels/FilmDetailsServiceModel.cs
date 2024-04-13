@@ -17,5 +17,6 @@ namespace FilmsToWatch.Models.FilmModels
         public string ReleaseYear { get; set; } = string.Empty;
 
         public string Director { get; set; } = string.Empty;
+
     }
 }
