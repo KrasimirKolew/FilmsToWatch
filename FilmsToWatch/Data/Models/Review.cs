@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static FilmsToWatch.Constants.DataConstants;
 
@@ -16,5 +18,10 @@ namespace FilmsToWatch.Data.Models
 
         [ForeignKey(nameof(FilmId))]
         public Film Films { get; set; } = null!;
+
+        public string UserId { get; set; } = string.Empty;
+
+        [ForeignKey(nameof(UserId))]
+        public IdentityUser User { get; set; } = null!;
     }
 }
