@@ -11,7 +11,7 @@
             <h6>Director: <b>@Model.Director</b></h6>
             <br />
             <a asp-controller="Film" asp-action="Details" asp-route-id="@Model.Id"
-               class="btn btn-info">Details</a>
+               asp-route-information="@Model.GetInformation()" class="btn btn-info">Details</a>
             <form asp-controller="Film" asp-action="MarkAsWatched" method="post">
                 <input type="hidden" name="filmId" value="@Model.Id" />
                 <button type="submit" class="btn btn-primary">Watched</button>

@@ -2,6 +2,7 @@ using FilmsToWatch.Data;
 using FilmsToWatch.Repositories.Contracts;
 using FilmsToWatch.Repositories.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,8 +21,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-//builder.Services.AddScoped<IRepository, Repository>();
-
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
 	//todo after project finish fix paslords !!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -32,6 +31,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews(options =>
+{
+	options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+});
+
 
 var app = builder.Build();
 
@@ -56,9 +61,16 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+app.UseEndpoints(endpoints =>
+{
+	endpoints.MapControllerRoute(
+		name: "Film Details",
+		pattern:"/Film/Details/{id}/{information}",
+		defaults: new { Controller = "Film", Action = "Details" }
+	);
+
+	endpoints.MapDefaultControllerRoute();
+	endpoints.MapRazorPages();
+});
 
 app.Run();

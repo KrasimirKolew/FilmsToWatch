@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using FilmsToWatch.Repositories.Contracts;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static FilmsToWatch.Constants.DataConstants;
 
 namespace FilmsToWatch.Models.FilmModels
 {
-    public class FilmFormModel
+    public class FilmFormModel : IFilmModel
     {
         public int Id { get; set; }
 

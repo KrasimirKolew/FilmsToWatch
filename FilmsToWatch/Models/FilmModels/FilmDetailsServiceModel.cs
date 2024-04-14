@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FilmsToWatch.Repositories.Contracts;
+using System.ComponentModel.DataAnnotations;
 
 namespace FilmsToWatch.Models.FilmModels
 {
-    public class FilmDetailsServiceModel
+    public class FilmDetailsServiceModel : IFilmModel
     {
         public int Id { get; set; }
 

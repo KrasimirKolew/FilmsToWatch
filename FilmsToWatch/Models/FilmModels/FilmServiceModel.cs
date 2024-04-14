@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FilmsToWatch.Repositories.Contracts;
+using System.ComponentModel.DataAnnotations;
 using static FilmsToWatch.Constants.DataConstants;
 
 namespace FilmsToWatch.Models.FilmModels
 {
-    public class FilmServiceModel
+    public class FilmServiceModel : IFilmModel
     {
         public int Id { get; set; }
 
