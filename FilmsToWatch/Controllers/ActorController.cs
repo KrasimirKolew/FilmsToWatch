@@ -1,6 +1,7 @@
 ﻿using FilmsToWatch.Data.Models;
 using FilmsToWatch.Repositories.Contracts;
 using FilmsToWatch.Repositories.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilmsToWatch.Controllers
@@ -13,12 +14,15 @@ namespace FilmsToWatch.Controllers
         {
             _actorService = actorService;
         }
+
+        [Authorize(Roles = "Administrator")]
         public IActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Add(Actor model)
         {
             if (!ModelState.IsValid)
@@ -38,6 +42,7 @@ namespace FilmsToWatch.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id)
         {
             var data = await _actorService.GetByIdAsync(id);
@@ -49,6 +54,7 @@ namespace FilmsToWatch.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(Actor model)
         {
             if (!ModelState.IsValid)
@@ -67,13 +73,14 @@ namespace FilmsToWatch.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> ActorList()
         {
             var genres = await _actorService.ListAsync();
             return View(genres);
         }
 
-
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _actorService.DeleteAsync(id);

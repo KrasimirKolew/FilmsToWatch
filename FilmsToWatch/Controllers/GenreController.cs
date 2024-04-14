@@ -14,12 +14,15 @@ namespace FilmsToWatch.Controllers
         {
             _genreService = genreService;
         }
+
+        [Authorize(Roles = "Administrator")]
         public IActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Add(Genre model)
         {
             if (!ModelState.IsValid)
@@ -38,6 +41,7 @@ namespace FilmsToWatch.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id)
         {
             var data = await _genreService.GetByIdAsync(id);
@@ -49,6 +53,7 @@ namespace FilmsToWatch.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(Genre model)
         {
             if (!ModelState.IsValid)
@@ -67,13 +72,14 @@ namespace FilmsToWatch.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> GenreList()
         {
             var genres = await _genreService.ListAsync();
             return View(genres);
         }
 
-       
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _genreService.DeleteAsync(id);

@@ -57,6 +57,7 @@ namespace FilmsToWatch.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Add()
         {
             var model = new FilmFormModel()
@@ -69,6 +70,7 @@ namespace FilmsToWatch.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Add(FilmFormModel model)
         {
 
@@ -101,6 +103,7 @@ namespace FilmsToWatch.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id)
         {
             var film = await _filmService.GetFilmByIdAsync(id);
@@ -116,6 +119,7 @@ namespace FilmsToWatch.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, FilmFormModel model)
         {
 
