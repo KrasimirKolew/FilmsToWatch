@@ -1,4 +1,6 @@
-﻿@model FilmsToWatch.Models.FilmModels.FilmServiceModel
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager;
+@model FilmsToWatch.Models.FilmModels.FilmServiceModel
 
 <div class="col-md-4">
     <div class="card mb-3">
@@ -16,8 +18,11 @@
                 <input type="hidden" name="filmId" value="@Model.Id" />
                 <button type="submit" class="btn btn-primary">Watched</button>
             </form>
-            <a asp-controller="Film" asp-action="Edit" asp-route-id="@Model.Id"
-               class="btn btn-warning">Edit</a>
+            @if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+            {
+                <a asp-controller="Film" asp-action="Edit" asp-route-id="@Model.Id"
+                class="btn btn-warning">Edit</a>
+            }
         </div>
     </div>
 </div>

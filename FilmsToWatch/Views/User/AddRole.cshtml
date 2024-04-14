@@ -1,0 +1,16 @@
+﻿@model FilmsToWatch.Models.UserModels.AddRoleViewModel
+
+<form asp-action="AddRole" method="post">
+    <div>
+        <label asp-for="@Model.RoleName" class="form-label-add-edit">Role Name</label>
+        <input asp-for="@Model.RoleName" class="form-control" aria-required="true" />
+        <span asp-validation-for="@Model.RoleName" class="text-danger"></span>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary" value="AddRole">Submit</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
