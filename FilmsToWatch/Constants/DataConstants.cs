@@ -21,6 +21,13 @@
         public const int ContentMinLen = 15;
         public const int ContentMaxLen = 150;
 
+        //User constants
+        public const int UserRoleNameMinLenght = 3;
+        public const int UserRoleNameMaxLenght = 20;
+
+        public const int UserEmailMinLenght = 2;
+        public const int UserEmailMaxLenght = 30;
+
         //massage constants
         public const string RequiredMesage = "The {0} field is required";
         public const string LenghtMessage = "The {0} field must be between {1} and {2} characters long";
