@@ -14,6 +14,7 @@ builder.Services.AddScoped<IFilmService,FilmService>();
 builder.Services.AddScoped<IActorService, ActorService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -29,6 +30,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
 })
+	.AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
