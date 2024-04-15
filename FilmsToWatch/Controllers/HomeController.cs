@@ -31,9 +31,9 @@ namespace FilmsToWatch.Controllers
 				return View("Error400");
 			}
 
-            if (statusCode == 401)
+            if (statusCode == 404)
             {
-                return View("Error401");
+                return View("Error404");
             }
 
             return View();

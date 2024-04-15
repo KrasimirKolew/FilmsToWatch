@@ -5,6 +5,13 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    var currUser = await UserManager.FindByNameAsync(User.Identity?.Name);
+    if (await UserManager.IsInRoleAsync(currUser, "SuperAdmin"))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="SuperAdmin" asp-controller="Home" asp-action="AddRole" title="Manage">SuperAdminInterface</a>
+        </li>
+    }
     <li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
     </li>

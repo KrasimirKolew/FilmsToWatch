@@ -70,8 +70,11 @@ app.UseEndpoints(endpoints =>
 		pattern:"/Film/Details/{id}/{information}",
 		defaults: new { Controller = "Film", Action = "Details" }
 	);
-
-	endpoints.MapDefaultControllerRoute();
+    endpoints.MapControllerRoute(
+            name: "areas",
+            pattern: "{area:exists}/{controller=Home}/{action=AddRole}"
+    );
+    endpoints.MapDefaultControllerRoute();
 	endpoints.MapRazorPages();
 });
 
