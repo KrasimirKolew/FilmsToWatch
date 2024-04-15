@@ -21,11 +21,16 @@ namespace FilmsToWatch.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+
+        public LoginModel(SignInManager<IdentityUser> signInManager,
+            ILogger<LoginModel> logger,
+            UserManager<IdentityUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -99,7 +104,14 @@ namespace FilmsToWatch.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, true, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var user = await _userManager.FindByNameAsync(Input.Email);
                     _logger.LogInformation("User logged in.");
+
+                    if (await _userManager.IsInRoleAsync(user, "SuperAdmin"))
+                    {
+                        return RedirectToAction("AddRole", "Home", new { area = "SuperAdmin" });
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
