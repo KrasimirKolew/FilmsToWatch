@@ -6,10 +6,10 @@ namespace FilmsToWatch.Repositories.Contracts
 {
     public interface IReviewService
     {
-        Task<IEnumerable<ReviewViewModel>> GetAllCommentsForEventAsync(int filmId);
-        Task CreateCommentAsync(ReviewCreateViewModel reviewModel, string userId, int filmId);
-        Task<Review> CommentByIdAsync(int id);
-        Task<Review> CommentByIdWithUserAsync(int id);
+        Task<IEnumerable<ReviewViewModel>> GetAllReviewsForEventAsync(int filmId);
+        Task CreateReviewAsync(ReviewCreateViewModel reviewModel, string userId, int filmId);
+        Task<Review> ReviewByIdAsync(int id);
+        Task<Review> ReviewByIdWithUserAsync(int id);
         Task<bool> ExistsAsync(int idFilm);
         Task<bool> SameUserAsync(int reviewId, string currentUserId);
         Task<int> EditAsync(int reviewId, ReviewCreateViewModel model);

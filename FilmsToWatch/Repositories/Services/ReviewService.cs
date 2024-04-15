@@ -26,14 +26,14 @@ namespace FilmsToWatch.Repositories.Services
         }
 
 
-        public async Task<Review> CommentByIdAsync(int id)
+        public async Task<Review> ReviewByIdAsync(int id)
         {
             return await context.Reviews
                 .Where(r=>r.Id == id)
                 .FirstAsync();
         }
 
-        public async Task<Review> CommentByIdWithUserAsync(int id)
+        public async Task<Review> ReviewByIdWithUserAsync(int id)
         {
             return await context.Reviews
             .Where(c => c.Id == id)
@@ -41,7 +41,7 @@ namespace FilmsToWatch.Repositories.Services
             .FirstAsync();
         }
 
-        public async Task CreateCommentAsync(ReviewCreateViewModel reviewModel, string userId, int filmId)
+        public async Task CreateReviewAsync(ReviewCreateViewModel reviewModel, string userId, int filmId)
         {
             var filmExists = await context.Films.AnyAsync(f => f.Id == filmId);
             if (!filmExists)
@@ -105,7 +105,7 @@ namespace FilmsToWatch.Repositories.Services
             return await context.Reviews.AnyAsync(r=> r.Id == idFilm);
         }
 
-        public async Task<IEnumerable<ReviewViewModel>> GetAllCommentsForEventAsync(int filmId)
+        public async Task<IEnumerable<ReviewViewModel>> GetAllReviewsForEventAsync(int filmId)
         {
             return await context.Reviews
                 .Where(r=> r.FilmId == filmId)

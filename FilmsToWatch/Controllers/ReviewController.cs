@@ -19,7 +19,7 @@ namespace FilmsToWatch.Controllers
         public async Task<IActionResult> All(int Id)
         {
             ViewBag.Id = Id;
-            var model = await reviewService.GetAllCommentsForEventAsync(Id);
+            var model = await reviewService.GetAllReviewsForEventAsync(Id);
             return View(model);
         }
 
@@ -40,7 +40,7 @@ namespace FilmsToWatch.Controllers
         {
 
             var userId = User.Id();
-            await reviewService.CreateCommentAsync(model, userId, Id);
+            await reviewService.CreateReviewAsync(model, userId, Id);
 
             if (!ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace FilmsToWatch.Controllers
                 return RedirectToAction(nameof(All), new { Id = filmId });
             };
 
-            var eventModel = await reviewService.CommentByIdAsync(Id);
+            var eventModel = await reviewService.ReviewByIdAsync(Id);
 
             var model = new ReviewCreateViewModel()
             {
@@ -117,7 +117,7 @@ namespace FilmsToWatch.Controllers
                 return RedirectToAction(nameof(All), new { Id = filmId });
             };
 
-            var commentToDelete = await reviewService.CommentByIdWithUserAsync(Id);
+            var commentToDelete = await reviewService.ReviewByIdWithUserAsync(Id);
             var model = new ReviewDeleteViewModel()
             {
                 Content = commentToDelete.Content,
