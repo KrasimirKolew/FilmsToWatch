@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FilmsToWatch.UnitTests
 {
-    internal class ActorServiceTests
+    [TestFixture]
+    public class ActorServiceTests
     {
     }
 }
