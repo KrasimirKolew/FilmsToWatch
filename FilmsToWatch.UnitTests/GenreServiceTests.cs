@@ -1,16 +1,42 @@
+using FilmsToWatch.Controllers;
+using FilmsToWatch.Data;
+using FilmsToWatch.Data.Models;
+using FilmsToWatch.Repositories.Contracts;
+using FilmsToWatch.Repositories.Services;
+using Microsoft.EntityFrameworkCore;
+using Moq;
+using NuGet.Packaging.Core;
+
 namespace FilmsToWatch.UnitTests
 {
-    public class Tests
+    [TestFixture]
+    public class GenreServiceTests
     {
+
         [SetUp]
-        public void Setup()
+        public void SetUp()
         {
+         
         }
 
         [Test]
-        public void Test1()
+        public async Task GetByGenreIdAsync_ValidId_ReturnsGenre()
         {
-            Assert.Pass();
+            var genre = new Genre
+            {
+                Id = 1,
+                GenreName = "Test",
+            };
+
+            var genreService = new Mock<IGenreService>();
+            genreService.Setup(x=>x.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(genre);
+            var controler = new GenreController(genreService.Object);
+
+            var getGenreId = await controler.Edit(1);
+
+            Assert.IsNotNull(getGenreId);
         }
+
+
     }
 }
