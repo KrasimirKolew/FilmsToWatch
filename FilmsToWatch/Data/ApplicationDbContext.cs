@@ -42,7 +42,7 @@ namespace FilmsToWatch.Data
         }
 
 
-        public DbSet<Film> Films { get; set; } = null!;
+        public virtual DbSet<Film> Films { get; set; } = null!;
         public DbSet<Genre> Genre { get; set; } = null!;
         public DbSet<Review> Reviews { get; set; } = null!;
         public DbSet<Actor> Actors { get; set; } = null!;

@@ -17,12 +17,10 @@ namespace FilmsToWatch.Repositories.Services
     public class ReviewService : IReviewService
     {
         private readonly ApplicationDbContext context;
-        private readonly ILogger<ReviewService> logger;
 
-        public ReviewService(ApplicationDbContext _context, ILogger<ReviewService> _logger)
+        public ReviewService(ApplicationDbContext _context)
         {
             context = _context;
-            logger = _logger;
         }
 
 
