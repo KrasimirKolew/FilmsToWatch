@@ -48,20 +48,6 @@ namespace FilmsToWatch.UnitTests
             Assert.That(dbActor.ActorName, Is.EqualTo("Test"));
             Assert.That(dbActor.FilmsInvolve, Is.EqualTo(5));
 
-            //var actor = new Actor
-            //{
-            //    Id = 1,
-            //    ActorName = "Test",
-            //    FilmsInvolve = 5
-            //};
-
-            //// Act
-            //var result = await actorService.AddAsync(actor);
-            //var pencho = await actorService.GetByIdAsync(actor.Id);
-
-            //// Assert
-            //var actorInDb = await _context.Actors.FirstOrDefaultAsync(g => g.ActorName == "Test");
-            //Assert.IsNotNull(actorInDb);
         }
     }
 }
