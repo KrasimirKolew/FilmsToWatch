@@ -7,6 +7,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,14 +16,50 @@ namespace FilmsToWatch.UnitTests
     [TestFixture]
     public class FilmServiceTests
     {
-        private Mock<ApplicationDbContext> _mockContext;
-        private FilmService _service;
+        //private Mock<ApplicationDbContext> _mockContext;
+        //private FilmService _service;
+
+        //[SetUp]
+        //public void Setup()
+        //{
+        //    _mockContext = new Mock<ApplicationDbContext>();
+        //    _service = new FilmService(_mockContext.Object);
+        //}
+        private ApplicationDbContext _context;
 
         [SetUp]
-        public void Setup()
+        public void SetUp()
         {
-            _mockContext = new Mock<ApplicationDbContext>();
-            _service = new FilmService(_mockContext.Object);
+
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "TestDatabase") // Make sure each test run uses a new db
+            .Options;
+
+            _context = new ApplicationDbContext(options);
+        }
+
+        [Test]
+        public async Task AddFilmAsync_GivenNewGenre_ShouldAddFilm()
+        {
+            // Arrange
+            var filmService = new FilmService(_context);
+            var filmFormModel = new FilmFormModel
+            {
+                Title = "New Film",
+                MovieImage = "image.jpg",
+                ReleaseYear = "02/03/2024",
+                Director = "Jane Doe",
+                GenreId = 1,
+                ActorId = 1
+            };
+
+            // Act
+            var result = await filmService.AddFilmAsync(filmFormModel);
+
+            // Assert
+            
+            var filmInDb = await _context.Films.FirstOrDefaultAsync(g => g.Title == "New Film");
+            Assert.IsNotNull(filmInDb);
         }
 
         //[Test]
@@ -68,29 +105,6 @@ namespace FilmsToWatch.UnitTests
         //    Assert.IsFalse(await _service.ActorExistsAsync(999));
         //}
 
-        //[Test]
-        //public async Task AddFilmAsync_ReturnsNewFilmId()
-        //{
-        //    // Arrange
-        //    var mockSet = new Mock<DbSet<Film>>();
-        //    _mockContext.Setup(c => c.Films).Returns(mockSet.Object);
-        //    var filmFormModel = new FilmFormModel
-        //    {
-        //        Title = "New Film",
-        //        MovieImage = "image.jpg",
-        //        ReleaseYear = "02/03/2024",
-        //        Director = "Jane Doe",
-        //        GenreId = 1,
-        //        ActorId = 1
-        //    };
-
-        //    // Act
-        //    var result = await _service.AddFilmAsync(filmFormModel);
-
-        //    // Assert
-        //    mockSet.Verify(m => m.Add(It.IsAny<Film>()), Times.Once);
-        //    _mockContext.Verify(m =>  m.SaveChangesAsync(), Times.Once);
-        //}
 
         //[Test]s
         //public async Task AllActorsAsync_ReturnsAllActors()
