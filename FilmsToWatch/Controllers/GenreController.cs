@@ -37,7 +37,7 @@ namespace FilmsToWatch.Controllers
             else
             {
                 TempData["msg"] = "Error on server side";
-                return View(model);
+                return BadRequest();
             }
         }
 
@@ -68,7 +68,7 @@ namespace FilmsToWatch.Controllers
             else
             {
                 TempData["msg"] = "Error on server side";
-                return View("Edit", model); 
+                return BadRequest();  
             }
         }
 

@@ -30,7 +30,7 @@ namespace FilmsToWatch.Controllers
         {
             if (await _filmService.ExistsAsync(id) == false)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             var model = await _filmService.FilmDetailsByIdAsync(id);
@@ -188,7 +188,7 @@ namespace FilmsToWatch.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "An error occurred while marking the film as watched.");
-                return View(); // Return to the current view or an error view.
+                return BadRequest(); // Return to the current view or an error view.
             }
         }
 

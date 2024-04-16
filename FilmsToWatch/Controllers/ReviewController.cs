@@ -86,7 +86,7 @@ namespace FilmsToWatch.Controllers
 
             if (await reviewService.ExistsAsync(model.Id) == false)
             {
-                ModelState.AddModelError("", "Comment does not exist");
+                ModelState.AddModelError("", "Review does not exist");
             }
 
             if (await reviewService.SameUserAsync(model.Id, User.Id()) == false)
