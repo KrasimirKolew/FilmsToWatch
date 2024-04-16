@@ -12,9 +12,9 @@ namespace FilmsToWatch.UnitTests
     [TestFixture]
     public class GenreServiceTests
     {
-        private Mock<ApplicationDbContext> _mockContext;
-        private Mock<IGenreService> _mockGenreService;
-        private GenreService _genreService;
+        //private Mock<ApplicationDbContext> _mockContext;
+        //private Mock<IGenreService> _mockGenreService;
+        //private GenreService _genreService;
         private ApplicationDbContext _context;
 
         [SetUp]
