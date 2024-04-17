@@ -229,11 +229,9 @@ namespace FilmsToWatch.Repositories.Services
 
             if (existingWatcher != null)
             {
-                // The film is already marked as watched, so you might want to handle this case.
                 throw new InvalidOperationException("The user has already marked this film as watched.");
             }
 
-            // If not, add a new FilmWatcher entry to mark the film as watched.
             var filmWatcher = new FilmWatcher
             {
                 HelperId = userId,

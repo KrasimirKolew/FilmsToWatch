@@ -15,7 +15,8 @@ html {
 
 body {
     margin-bottom: 60px;
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 62%, rgba(168,189,241,1) 100%);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 62%, rgba(168,189,241,1) 100%); 
+    
 }
 
 .movie-image img {
@@ -23,6 +24,10 @@ body {
     height: auto;
     max-width: 200px;
     max-height: 300px;
+}
+
+.heade-coler {
+    background: linear-gradient(90deg, rgba(100,149,237,1) 30%, rgba(223,221,198,1) 50%, rgba(100,149,237,1) 70%);
 }
 
 .w-40 {
