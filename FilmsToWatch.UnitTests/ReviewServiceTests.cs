@@ -278,6 +278,71 @@ namespace FilmsToWatch.UnitTests
                 Assert.IsFalse(result);
             }
         }
+
+        [Test]
+        public async Task ReviewByIdAsync_ReviewExists_ShouldReturnReview()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ReviewService(context);
+
+                // Act
+                var result = await service.ReviewByIdAsync(1);
+
+                // Assert
+                Assert.IsNotNull(result);
+                Assert.AreEqual("Review 1", result.Content);
+            }
+        }
+
+        [Test]
+        public async Task ReviewByIdAsync_ReviewDoesNotExist_ShouldThrowException()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ReviewService(context);
+
+                // Act & Assert
+                Assert.ThrowsAsync<InvalidOperationException>(async () => await service.ReviewByIdAsync(100));
+            }
+        }
+
+        [Test]
+        public async Task ReviewByIdWithUserAsync_ReviewExists_ShouldReturnReviewWithUser()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ReviewService(context);
+
+                // Act
+                var result = await service.ReviewByIdWithUserAsync(1);
+
+                // Assert
+                Assert.IsNotNull(result);
+                Assert.AreEqual("Review 1", result.Content);
+                Assert.IsNotNull(result.User);
+                Assert.AreEqual("1", result.User.Id);
+            }
+        }
+
+        [Test]
+        public async Task ReviewByIdWithUserAsync_ReviewDoesNotExist_ShouldReturnNull()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ReviewService(context);
+
+                // Act
+                var result = await service.ReviewByIdWithUserAsync(100);
+
+                // Assert
+                Assert.IsNull(result);
+            }
+        }
     }
 }
 

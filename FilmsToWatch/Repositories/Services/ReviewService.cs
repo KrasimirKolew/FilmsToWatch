@@ -36,7 +36,7 @@ namespace FilmsToWatch.Repositories.Services
             return await context.Reviews
             .Where(c => c.Id == id)
             .Include(c => c.User)
-            .FirstAsync();
+            .FirstOrDefaultAsync();
         }
 
         public async Task CreateReviewAsync(ReviewCreateViewModel reviewModel, string userId, int filmId)

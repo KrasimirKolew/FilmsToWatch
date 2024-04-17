@@ -118,6 +118,12 @@ namespace FilmsToWatch.Controllers
             };
 
             var commentToDelete = await reviewService.ReviewByIdWithUserAsync(Id);
+
+            if(commentToDelete==null)
+            {
+                return NotFound();
+            }
+
             var model = new ReviewDeleteViewModel()
             {
                 Content = commentToDelete.Content,
