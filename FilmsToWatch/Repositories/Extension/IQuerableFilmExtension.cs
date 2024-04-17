@@ -6,9 +6,9 @@ namespace FilmsToWatch.Repositories.Extension
 {
     public static class IQuerableFilmExtension
     {
-        public static IQueryable<FilmServiceModel> ProjectToFilmServiceModel(this IQueryable<Film> houses)
+        public static IQueryable<FilmServiceModel> ProjectToFilmServiceModel(this IQueryable<Film> films)
         {
-            return houses
+            return films
                 .Select(h => new FilmServiceModel()
                 {
                     Id = h.Id,

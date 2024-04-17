@@ -136,7 +136,6 @@ namespace FilmsToWatch.Controllers
                 return RedirectToAction(nameof(All), new { Id = model.FilmId });
             }
 
-            //later admin or organiser
             if (await reviewService.SameUserAsync(Id, User.Id()) == false)
             {
                 return RedirectToAction(nameof(All), new { Id = model.FilmId });

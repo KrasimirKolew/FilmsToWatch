@@ -125,7 +125,6 @@ namespace FilmsToWatch.Repositories.Services
                 .Where(r => r.Id == reviewId)
                 .FirstOrDefaultAsync();
 
-            //moe da gurmi ot tuk
             if (review?.UserId == currentUserId)
             {
                 result = true;

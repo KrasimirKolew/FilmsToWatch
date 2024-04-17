@@ -16,7 +16,6 @@ namespace FilmsToWatch.Areas.SuperAdmin.Controllers
 
         private readonly SignInManager<IdentityUser> signInManager;
 
-
         public HomeController(
             UserManager<IdentityUser> _userManager,
             SignInManager<IdentityUser> _signInManager,

@@ -12,18 +12,12 @@ namespace FilmsToWatch.UnitTests
     [TestFixture]
     public class GenreServiceTests
     {
-        //private Mock<ApplicationDbContext> _mockContext;
-        //private Mock<IGenreService> _mockGenreService;
-        //private GenreService _genreService;
+
         private ApplicationDbContext _context;
 
         [SetUp]
         public void SetUp()
         {
-            //_mockContext = new Mock<ApplicationDbContext>();
-            //_mockGenreService = new Mock<IGenreService>();
-            //_genreService = new GenreService(_mockContext.Object);
-
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase") // Make sure each test run uses a new db
@@ -63,7 +57,6 @@ namespace FilmsToWatch.UnitTests
             // Assert
             Assert.IsTrue(result);
 
-            // Additional verification to ensure the genre was added
             var genreInDb = await _context.Genre.FirstOrDefaultAsync(g => g.GenreName == "Drama");
             Assert.IsNotNull(genreInDb);
         }
@@ -100,7 +93,7 @@ namespace FilmsToWatch.UnitTests
         [TearDown]
         public void TearDown()
         {
-            _context.Dispose(); // Dispose the context after each test
+            _context.Dispose(); 
         }
     }
 }

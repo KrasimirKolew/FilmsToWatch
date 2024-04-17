@@ -187,7 +187,7 @@ namespace FilmsToWatch.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "An error occurred while marking the film as watched.");
-                return BadRequest(); // Return to the current view or an error view.
+                return BadRequest();
             }
         }
 

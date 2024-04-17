@@ -22,7 +22,7 @@ namespace FilmsToWatch.UnitTests
         {
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase") // Make sure each test run uses a new db
+            .UseInMemoryDatabase(databaseName: "TestDatabase") 
             .Options;
 
             _context = new ApplicationDbContext(options);
@@ -32,7 +32,7 @@ namespace FilmsToWatch.UnitTests
         public async Task AddFilmAsync_GivenNewGenre_ShouldAddFilm()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase") // Make sure each test has a unique name for the database
+            .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
 
             var userId = "user123";
@@ -67,62 +67,7 @@ namespace FilmsToWatch.UnitTests
                 Assert.IsNotNull(reviewInDb);
             }
 
-            //    var mockFilmSet = new Mock<DbSet<Film>>();
-            ////var films = new List<Film>
-            ////{
-            ////    new Film { 
-            ////        Id = filmId,
-            ////        Title = "New Film",
-            ////        MovieImage = "image.jpg",
-            ////        ReleaseYear = "02/03/2024",
-            ////        Director = "Jane Doe",
-            ////        GenreId = 1,
-            ////        ActorId = 1,
-            ////        FilmAdderId="1"
-            ////    }
-            ////}.AsQueryable();
-
-            //mockFilmSet.As<IQueryable<Film>>().Setup(m => m.Provider).Returns(films.Provider);
-            //mockFilmSet.As<IQueryable<Film>>().Setup(m => m.Expression).Returns(films.Expression);
-            //mockFilmSet.As<IQueryable<Film>>().Setup(m => m.ElementType).Returns(films.ElementType);
-            //mockFilmSet.As<IQueryable<Film>>().Setup(m => m.GetEnumerator()).Returns(films.GetEnumerator());
-
-
-            //var mockContext = new Mock<ApplicationDbContext>();
-            //mockContext.Setup(c => c.Films).Returns(mockFilmSet.Object);
-
-            //var reviewService = new ReviewService(mockContext.Object);
-
-            //// Act
-            //await reviewService.CreateReviewAsync(reviewModel, userId, filmId);
-            
-
-
-            //var reviewInDb = await _context.Reviews.FirstOrDefaultAsync(r => r.FilmId == filmId && r.UserId == userId);
-            //Assert.IsNotNull(reviewInDb);
-
         }
     }
 }
 
-//// Arrange
-//var reviewService = new ReviewService(_context);
-
-//var userId = "user123";
-//var filmId = 1;
-
-//var reviewMoldel =  new ReviewCreateViewModel()
-//{
-//    Id = 1,
-//    Content = "test content for unit testing",
-//    FilmId = 1
-//};
-
-//var result = await reviewService.CreateReviewAsync(reviewMoldel, userId, filmId);
-
-//var dbActor = await reviewService.GetAllReviewsForEventAsync(filmId);
-
-//Assert.IsTrue(result);
-//Assert.That(dbActor.ActorName, Is.EqualTo("Test"));
-//Assert.That(dbActor.FilmsInvolve, Is.EqualTo(5));
-// Arrange

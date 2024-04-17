@@ -32,7 +32,7 @@ namespace FilmsToWatch.Repositories.Contracts
 
         Task<FilmDetailsServiceModel> FilmDetailsByIdAsync(int id);
 
-        //iztrii ako ne stane
+        //addon
         Task<bool> FilmHasBeenWatched(string userId, int filmId);
 
     }
