@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FilmsToWatch.Models.ReviewModels;
 using Moq;
+using FilmsToWatch.Controllers;
 
 namespace FilmsToWatch.UnitTests
 {
@@ -67,6 +68,36 @@ namespace FilmsToWatch.UnitTests
                 Assert.IsNotNull(reviewInDb);
             }
 
+        }
+        [Test]
+        public async Task EditAsync_ExistingReview_UpdatesReviewAndReturnsFilmId()
+        {
+            // Arrange
+            var model = new ReviewCreateViewModel { Id = 123, Content = "Updated content" };
+            var existingReview = new Review { Id = 1, Content = "Old content", FilmId = 123 };
+            var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+
+            using (var context = new ApplicationDbContext(dbContextOptions))
+            {
+                context.Reviews.Add(existingReview);
+                await context.SaveChangesAsync();
+            }
+
+            using (var context = new ApplicationDbContext(dbContextOptions))
+            {
+                var service = new ReviewService(context);
+
+                // Act
+                var result = await service.EditAsync(1, model);
+
+                // Assert
+                Assert.AreEqual(model.Id, result); // Ensure the correct film ID is returned
+
+                var updatedReview = await context.Reviews.FindAsync(1);
+                Assert.AreEqual(model.Content, updatedReview.Content); // Ensure the review content is updated
+            }
         }
     }
 }
