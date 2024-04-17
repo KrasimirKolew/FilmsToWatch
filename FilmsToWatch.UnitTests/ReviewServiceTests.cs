@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using FilmsToWatch.Models.ReviewModels;
 using Moq;
 using FilmsToWatch.Controllers;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity;
 
 namespace FilmsToWatch.UnitTests
 {
@@ -17,16 +19,26 @@ namespace FilmsToWatch.UnitTests
     public class ReviewServiceTests
     {
         private ApplicationDbContext _context;
+        private DbContextOptions<ApplicationDbContext> _options;
 
         [SetUp]
         public void SetUp()
         {
 
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase")
-            .Options;
+            _options = new DbContextOptionsBuilder<ApplicationDbContext>()
+           .UseInMemoryDatabase(databaseName: "TestDatabase")
+           .Options;
 
-            _context = new ApplicationDbContext(options);
+            _context = new ApplicationDbContext(_options);
+
+            var user = new IdentityUser { UserName = "petko@abv.bg", Id = "1", Email = "asd@abv.bg" };
+
+            _context.Reviews.AddRange(
+                    new Review { Id = 1, FilmId = 1, Content = "Review 1", UserId = user.Id, User=user },
+                    new Review { Id = 2, FilmId = 1, Content = "Review 2", UserId = user.Id, User = user },
+                    new Review { Id = 3, FilmId = 2, Content = "Review 3", UserId = user.Id, User = user }
+                );
+            _context.SaveChanges();
         }
 
         [Test]
@@ -146,6 +158,125 @@ namespace FilmsToWatch.UnitTests
                 Assert.Null(deletedReview);
             }
 
+        }
+        [Test]
+        public async Task ExistsAsync_ReturnsTrueForExistingReview()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ReviewService(context);
+
+                // Act
+                var exists = await service.ExistsAsync(1);
+
+                // Assert
+                Assert.IsTrue(exists);
+            }
+        }
+
+        [Test]
+        public async Task ExistsAsync_ReturnsFalseForNonExistingReview()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ReviewService(context);
+
+                // Act
+                var exists = await service.ExistsAsync(99); // Assuming review with ID 99 does not exist
+
+                // Assert
+                Assert.IsFalse(exists);
+            }
+        }
+        [Test]
+        public async Task GetAllReviewsForEventAsync_ReturnsCorrectReviews()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ReviewService(context);
+                var filmId = 1;
+
+                // Act
+                var reviews = await service.GetAllReviewsForEventAsync(filmId);
+
+                // Assert
+                Assert.AreEqual(2, reviews.Count());
+                Assert.IsTrue(reviews.All(r => r.FilmId == filmId));
+            }
+        }
+
+        [Test]
+        public async Task GetAllReviewsForEventAsync_ReturnsEmptyListForNonExistingEvent()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ReviewService(context);
+                var nonExistingFilmId = 99; // Assuming film with ID 99 does not exist
+
+                // Act
+                var reviews = await service.GetAllReviewsForEventAsync(nonExistingFilmId);
+
+                // Assert
+                Assert.IsEmpty(reviews);
+            }
+        }
+
+        [Test]
+        public async Task SameUserAsync_ReturnsTrueForSameUser()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ReviewService(context);
+                var reviewId = 1;
+                var currentUserId = "1";
+
+                // Act
+                var result = await service.SameUserAsync(reviewId, currentUserId);
+
+                // Assert
+                Assert.IsTrue(result);
+            }
+        }
+
+        [Test]
+        public async Task SameUserAsync_ReturnsFalseForDifferentUser()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ReviewService(context);
+                var reviewId = 1;
+                var currentUserId = "user2";
+
+                // Act
+                var result = await service.SameUserAsync(reviewId, currentUserId);
+
+                // Assert
+                Assert.IsFalse(result);
+            }
+        }
+
+        [Test]
+        public async Task SameUserAsync_ReturnsFalseForNonExistingReview()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ReviewService(context);
+                var nonExistingReviewId = 99; // Assuming review with ID 99 does not exist
+                var currentUserId = "user1";
+
+                // Act
+                var result = await service.SameUserAsync(nonExistingReviewId, currentUserId);
+
+                // Assert
+                Assert.IsFalse(result);
+            }
         }
     }
 }
