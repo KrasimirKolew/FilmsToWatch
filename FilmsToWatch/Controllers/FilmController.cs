@@ -182,7 +182,6 @@ namespace FilmsToWatch.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                TempData["ErrorMessage"] = "You have already marked this film as watched.";
                 return RedirectToAction(nameof(WatchedFilms));
             }
             catch (Exception ex)
