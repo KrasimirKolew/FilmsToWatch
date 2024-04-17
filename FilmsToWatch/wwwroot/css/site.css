@@ -14,7 +14,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 62%, rgba(168,189,241,1) 100%);
 }
 
 .movie-image img {
@@ -24,3 +25,20 @@ body {
     max-height: 300px;
 }
 
+.w-40 {
+    margin-right: 10px;
+}
+
+.all-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.detail-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+.film-text a.btn{
+    margin-bottom:10px;
+}
