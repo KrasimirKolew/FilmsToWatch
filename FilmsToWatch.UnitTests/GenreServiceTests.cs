@@ -6,6 +6,7 @@ using FilmsToWatch.Repositories.Services;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using NuGet.Packaging.Core;
+using System;
 
 namespace FilmsToWatch.UnitTests
 {
@@ -14,16 +15,27 @@ namespace FilmsToWatch.UnitTests
     {
 
         private ApplicationDbContext _context;
+        private DbContextOptions<ApplicationDbContext> _options;
 
         [SetUp]
         public void SetUp()
         {
 
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            _options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase") // Make sure each test run uses a new db
             .Options;
 
-            _context = new ApplicationDbContext(options);
+            _context = new ApplicationDbContext(_options);
+
+            using (var context = new ApplicationDbContext(_options))
+            {
+                // Seed the in-memory database with test data
+                context.Genre.AddRange(
+                    new Genre { Id = 1, GenreName = "Genre1" },
+                    new Genre { Id = 2, GenreName = "Genre2" }
+                );
+                context.SaveChanges();
+            }
         }
 
 
@@ -89,7 +101,22 @@ namespace FilmsToWatch.UnitTests
                 Assert.IsNull(genreInDb, "Genre should no longer exist in the database");
             }
         }
+        [Test]
+        public async Task ListAsync_ReturnsAllGenres()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new GenreService(context);
 
+                // Act
+                var genres = await service.ListAsync();
+
+                // Assert
+                Assert.IsNotNull(genres);
+                Assert.AreEqual(2, genres.Count);
+            }
+        }
         [TearDown]
         public void TearDown()
         {

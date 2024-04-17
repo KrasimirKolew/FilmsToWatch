@@ -127,5 +127,22 @@ namespace FilmsToWatch.UnitTests
                 Assert.IsFalse(result);
             }
         }
+        [Test]
+        public async Task ListAsync_ReturnsAllActors()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ActorService(context);
+
+                // Act
+                var actors = await service.ListAsync();
+
+                // Assert
+                Assert.IsNotNull(actors);
+                Assert.AreEqual(2, actors.Count);
+            }
+        }
+
     }
 }
