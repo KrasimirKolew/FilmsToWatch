@@ -23,7 +23,7 @@ namespace FilmsToWatch.UnitTests
         {
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase") 
+            .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
 
             _context = new ApplicationDbContext(options);
@@ -97,6 +97,24 @@ namespace FilmsToWatch.UnitTests
 
                 var updatedReview = await context.Reviews.FindAsync(1);
                 Assert.AreEqual(model.Content, updatedReview.Content); // Ensure the review content is updated
+            }
+        }
+
+        [Test]
+        public async Task EditAsync_NonExistingReview_ThrowsException()
+        {
+            // Arrange
+            var model = new ReviewCreateViewModel { Id = 1, Content = "Updated content" };
+            var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+
+            using (var context = new ApplicationDbContext(dbContextOptions))
+            {
+                var service = new ReviewService(context);
+
+                // Act & Assert
+                Assert.ThrowsAsync<KeyNotFoundException>(() => service.EditAsync(1, model));
             }
         }
     }
