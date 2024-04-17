@@ -17,16 +17,23 @@ namespace FilmsToWatch.UnitTests
     public class ActorServiceTests
     {
         private ApplicationDbContext _context;
+        private DbContextOptions<ApplicationDbContext> _options;
 
         [SetUp]
         public void SetUp()
         {
 
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            _options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase") // Make sure each test run uses a new db
             .Options;
 
-            _context = new ApplicationDbContext(options);
+            _context = new ApplicationDbContext(_options);
+
+            _context.Actors.AddRange(
+                    new Actor { Id = 1, ActorName = "Actor1", FilmsInvolve = 5 },
+                    new Actor { Id = 2, ActorName = "Actor2", FilmsInvolve = 5 }
+                );
+            _context.SaveChanges();
         }
 
         [Test]
@@ -48,6 +55,41 @@ namespace FilmsToWatch.UnitTests
             Assert.That(dbActor.ActorName, Is.EqualTo("Test"));
             Assert.That(dbActor.FilmsInvolve, Is.EqualTo(5));
 
+        }
+
+        [Test]
+        public async Task DeleteAsync_DeletesExistingActor()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ActorService(context);
+                var actorId = 1;
+
+                // Act
+                var result = await service.DeleteAsync(actorId);
+
+                // Assert
+                Assert.IsTrue(result);
+                Assert.IsNull(await context.Actors.FindAsync(actorId));
+            }
+        }
+
+        [Test]
+        public async Task DeleteAsync_ReturnsFalseForNonExistingActor()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ActorService(context);
+                var nonExistingActorId = 99; // Assuming actor with ID 99 does not exist
+
+                // Act
+                var result = await service.DeleteAsync(nonExistingActorId);
+
+                // Assert
+                Assert.IsFalse(result);
+            }
         }
     }
 }
