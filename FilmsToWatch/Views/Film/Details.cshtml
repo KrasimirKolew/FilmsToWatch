@@ -1,25 +1,29 @@
 ﻿@model FilmsToWatch.Models.FilmModels.FilmDetailsServiceModel
 @{
 }
-<div class="movie-detail w-80 m-auto">
-    <div class="img-container">
-        <img alt="image" src="/Uploads/@Model.MovieImage">
+<div class="detail-content">
+    <div class="movie-detail w-80 m-auto">
+        <div class="img-container">
+            <img alt="image" src="/Uploads/@Model.MovieImage">
+        </div>
     </div>
-
-    <div class="detail-container">
-        <h3>Title : @Model.Title</h3>
-        <h4>Genre : @Model.Genre</h4>
-        <h3>Main Actor : @Model.Actor</h3>
-        <h4>Release Date : @Model.ReleaseYear</h4>
-        <h4>Director : @Model.Director</h4>
-    </div>
+    <div class="film-text">
+        <div class="detail-container">
+            <h3>Title : @Model.Title</h3>
+            <h4>Genre : @Model.Genre</h4>
+            <h3>Main Actor : @Model.Actor</h3>
+            <h4>Release Date : @Model.ReleaseYear</h4>
+            <h4>Director : @Model.Director</h4>
+        </div>
+        <div class="w-80 m-auto">
+            <a href="/Film/All" class="btn btn-default">Back to All Films</a>
+        </div>
+        <div class="w-80 m-auto">
+            <a asp-controller="Review" asp-action="Create" asp-route-Id="@Model.Id" class="btn btn-primary">Add Review</a>
+        </div>
+        <div class="w-80 m-auto">
+            <a asp-controller="Review" asp-action="All" asp-route-Id="@Model.Id" class="btn btn-primary">All Review</a>
+        </div>
+    </div> 
 </div>
-<div class="w-80 m-auto">
-    <a href="/Film/All" class="btn btn-default">Back to All Films</a>
-</div>
-<div class="w-80 m-auto">  
-    <a asp-controller="Review" asp-action="Create" asp-route-Id="@Model.Id" class="btn btn-primary">Add Review</a>   
-</div>
-<div class="w-80 m-auto">
-    <a asp-controller="Review" asp-action="All" asp-route-Id="@Model.Id" class="btn btn-primary">All Review</a>
-</div>
+    
