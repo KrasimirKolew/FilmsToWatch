@@ -72,35 +72,7 @@ namespace FilmsToWatch.UnitTests
             var genreInDb = await _context.Genre.FirstOrDefaultAsync(g => g.GenreName == "Drama");
             Assert.IsNotNull(genreInDb);
         }
-        [Test]
-        public async Task DeleteAsync_GivenValidId_ShouldDeleteGenre()
-        {
-            // Arrange
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase") // Make sure each test run uses a new db
-                .Options;
-
-            using (var setupContext = new ApplicationDbContext(options))
-            {
-                setupContext.Genre.Add(new Genre { Id = 5, GenreName = "Drama" });
-                await setupContext.SaveChangesAsync();
-            }
-
-            using (var testContext = new ApplicationDbContext(options))
-            {
-                var genreService = new GenreService(testContext);
-
-                // Act
-                var result = await genreService.DeleteAsync(5);
-
-                // Assert
-                Assert.IsTrue(result, "Genre should be deleted successfully");
-
-                // Additional verification to ensure the genre was deleted
-                var genreInDb = await testContext.Genre.FirstOrDefaultAsync(g => g.Id == 5);
-                Assert.IsNull(genreInDb, "Genre should no longer exist in the database");
-            }
-        }
+        
 
         [Test]
         public async Task ListAsync_ReturnsAllGenres()
@@ -154,6 +126,36 @@ namespace FilmsToWatch.UnitTests
 
                 // Assert
                 Assert.IsFalse(result);
+            }
+        }
+
+        [Test]
+        public async Task DeleteAsync_GivenValidId_ShouldDeleteGenre()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase") // Make sure each test run uses a new db
+                .Options;
+
+            using (var setupContext = new ApplicationDbContext(options))
+            {
+                setupContext.Genre.Add(new Genre { Id = 5, GenreName = "Drama" });
+                await setupContext.SaveChangesAsync();
+            }
+
+            using (var testContext = new ApplicationDbContext(options))
+            {
+                var genreService = new GenreService(testContext);
+
+                // Act
+                var result = await genreService.DeleteAsync(5);
+
+                // Assert
+                Assert.IsTrue(result, "Genre should be deleted successfully");
+
+                // Additional verification to ensure the genre was deleted
+                var genreInDb = await testContext.Genre.FirstOrDefaultAsync(g => g.Id == 5);
+                Assert.IsNull(genreInDb, "Genre should no longer exist in the database");
             }
         }
 

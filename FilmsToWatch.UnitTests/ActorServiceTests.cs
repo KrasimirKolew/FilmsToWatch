@@ -57,40 +57,7 @@ namespace FilmsToWatch.UnitTests
 
         }
 
-        [Test]
-        public async Task DeleteAsync_DeletesExistingActor()
-        {
-            // Arrange
-            using (var context = new ApplicationDbContext(_options))
-            {
-                var service = new ActorService(context);
-                var actorId = 3;
-
-                // Act
-                var result = await service.DeleteAsync(actorId);
-
-                // Assert
-                Assert.IsTrue(result);
-                Assert.IsNull(await context.Actors.FindAsync(actorId));
-            }
-        }
-
-        [Test]
-        public async Task DeleteAsync_ReturnsFalseForNonExistingActor()
-        {
-            // Arrange
-            using (var context = new ApplicationDbContext(_options))
-            {
-                var service = new ActorService(context);
-                var nonExistingActorId = 99; // Assuming actor with ID 99 does not exist
-
-                // Act
-                var result = await service.DeleteAsync(nonExistingActorId);
-
-                // Assert
-                Assert.IsFalse(result);
-            }
-        }
+        
         [Test]
         public async Task UpdateAsync_UpdatesExistingActor()
         {
@@ -144,6 +111,40 @@ namespace FilmsToWatch.UnitTests
             }
         }
 
+        [Test]
+        public async Task DeleteAsync_DeletesExistingActor()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ActorService(context);
+                var actorId = 2;
+
+                // Act
+                var result = await service.DeleteAsync(actorId);
+
+                // Assert
+                Assert.IsTrue(result);
+                Assert.IsNull(await context.Actors.FindAsync(actorId));
+            }
+        }
+
+        [Test]
+        public async Task DeleteAsync_ReturnsFalseForNonExistingActor()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ActorService(context);
+                var nonExistingActorId = 99; // Assuming actor with ID 99 does not exist
+
+                // Act
+                var result = await service.DeleteAsync(nonExistingActorId);
+
+                // Assert
+                Assert.IsFalse(result);
+            }
+        }
 
         [TearDown]
         public void TearDown()

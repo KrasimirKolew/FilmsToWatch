@@ -130,35 +130,7 @@ namespace FilmsToWatch.UnitTests
             }
         }
 
-        [Test]
-        public async Task DeleteAsync_RemovesReview()
-        {
-            // Arrange
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
-                .Options;
-
-            // Seed the database with some test data
-            using (var context = new ApplicationDbContext(options))
-            {
-                context.Reviews.Add(new Review { Id = 7, Content = "Test Review" });
-                await context.SaveChangesAsync();
-            }
-
-            // Use a separate context for the test to ensure isolation
-            using (var context = new ApplicationDbContext(options))
-            {
-                var service = new ReviewService(context);
-
-                // Act
-                await service.DeleteAsync(7);
-
-                // Assert
-                var deletedReview = await context.Reviews.FindAsync(7);
-                Assert.Null(deletedReview);
-            }
-
-        }
+        
         [Test]
         public async Task ExistsAsync_ReturnsTrueForExistingReview()
         {
@@ -344,6 +316,35 @@ namespace FilmsToWatch.UnitTests
             }
         }
 
+        [Test]
+        public async Task DeleteAsync_RemovesReview()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+
+            // Seed the database with some test data
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Reviews.Add(new Review { Id = 7, Content = "Test Review" });
+                await context.SaveChangesAsync();
+            }
+
+            // Use a separate context for the test to ensure isolation
+            using (var context = new ApplicationDbContext(options))
+            {
+                var service = new ReviewService(context);
+
+                // Act
+                await service.DeleteAsync(7);
+
+                // Assert
+                var deletedReview = await context.Reviews.FindAsync(7);
+                Assert.Null(deletedReview);
+            }
+
+        }
 
         [TearDown]
         public void TearDown()
