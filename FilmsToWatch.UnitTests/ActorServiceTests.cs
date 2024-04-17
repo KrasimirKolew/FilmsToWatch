@@ -1,15 +1,7 @@
 ﻿using FilmsToWatch.Data;
 using FilmsToWatch.Data.Models;
-using FilmsToWatch.Models.FilmModels;
 using FilmsToWatch.Repositories.Services;
 using Microsoft.EntityFrameworkCore;
-using NUnit.Framework.Internal.Execution;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FilmsToWatch.UnitTests
 {

@@ -5,8 +5,6 @@ using FilmsToWatch.Repositories.Contracts;
 using FilmsToWatch.Repositories.Services;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using NuGet.Packaging.Core;
-using System;
 
 namespace FilmsToWatch.UnitTests
 {

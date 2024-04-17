@@ -1,17 +1,9 @@
-﻿using FilmsToWatch.Data.Models;
-using FilmsToWatch.Data;
-using FilmsToWatch.Repositories.Services;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FilmsToWatch.Data;
+using FilmsToWatch.Data.Models;
 using FilmsToWatch.Models.ReviewModels;
-using Moq;
-using FilmsToWatch.Controllers;
-using Microsoft.Extensions.Options;
+using FilmsToWatch.Repositories.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace FilmsToWatch.UnitTests
 {

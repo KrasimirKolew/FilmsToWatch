@@ -3,13 +3,6 @@ using FilmsToWatch.Data.Models;
 using FilmsToWatch.Models.FilmModels;
 using FilmsToWatch.Repositories.Services;
 using Microsoft.EntityFrameworkCore;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FilmsToWatch.UnitTests
 {
