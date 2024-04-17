@@ -12,17 +12,19 @@
             <h6>Release Year: <b>@Model.ReleaseYear</b></h6>
             <h6>Director: <b>@Model.Director</b></h6>
             <br />
-            <a asp-controller="Film" asp-action="Details" asp-route-id="@Model.Id"
-               asp-route-information="@Model.GetInformation()" class="btn btn-info">Details</a>
-            <form asp-controller="Film" asp-action="MarkAsWatched" method="post">
-                <input type="hidden" name="filmId" value="@Model.Id" />
-                <button type="submit" class="btn btn-primary">Watched</button>
-            </form>
-            @if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
-            {
-                <a asp-controller="Film" asp-action="Edit" asp-route-id="@Model.Id"
-                class="btn btn-warning">Edit</a>
-            }
+            <div class="all-buttons">
+                <a asp-controller="Film" asp-action="Details" asp-route-id="@Model.Id"
+                   asp-route-information="@Model.GetInformation()" class="btn btn-info">Details</a>
+                <form asp-controller="Film" asp-action="MarkAsWatched" method="post">
+                    <input type="hidden" name="filmId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-primary">Watched</button>
+                </form>
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+                {
+                    <a asp-controller="Film" asp-action="Edit" asp-route-id="@Model.Id"
+                       class="btn btn-warning">Edit</a>
+                }
+            </div>       
         </div>
     </div>
 </div>
