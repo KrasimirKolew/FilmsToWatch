@@ -62,83 +62,57 @@ namespace FilmsToWatch.UnitTests
             Assert.IsNotNull(filmInDb);
         }
 
-        //[Test]
-        //public async Task ActorExistsAsync_ReturnsTrue_WhenActorExists()
-        //{
-        //    // Arrange
-        //    var actors = new List<Actor>
-        //    {
-        //         new Actor { Id = 1, ActorName = "John Doe" }
-        //    }.AsQueryable();
+        [Test]
+        public async Task MarkAsWatchedAsync_NewWatcher_SuccessfullyMarksFilmAsWatched()
+        {
+            // Arrange
+            var filmId = 1;
+            var userId = "user123";
 
-        //    var mockSet = new Mock<DbSet<Actor>>();
-        //    mockSet.As<IQueryable<Actor>>().Setup(m => m.Provider).Returns(actors.Provider);
-        //    mockSet.As<IQueryable<Actor>>().Setup(m => m.Expression).Returns(actors.Expression);
-        //    mockSet.As<IQueryable<Actor>>().Setup(m => m.ElementType).Returns(actors.ElementType);
-        //    mockSet.As<IQueryable<Actor>>().Setup(m => m.GetEnumerator()).Returns(actors.GetEnumerator());
-        //    _mockContext.Setup(c => c.Actors).Returns(mockSet.Object);
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
 
-        //    // Act
-        //    var result = await _service.ActorExistsAsync(1);
+            using (var context = new ApplicationDbContext(options))
+            {
+                var service = new FilmService(context);
 
-        //    // Assert
-        //    Assert.IsTrue(result);
-        //}
+                // Act
+                await service.MarkAsWatchedAsync(filmId, userId);
 
-        //[Test]
-        //public async Task ActorExistsAsync_ReturnsFalse_WhenActorDoesNotExist()
-        //{
-        //    // Arrange similar to above, with no matching actorId
-        //    var actors = new List<Actor>
-        //    {
-        //         new Actor { Id = 2, ActorName = "Krasimir Kolev" }
-        //    }.AsQueryable();
+                // Assert
+                var filmWatcher = await context.FilmWatchers.FirstOrDefaultAsync(fw => fw.FilmId == filmId && fw.HelperId == userId);
+                Assert.NotNull(filmWatcher); // Ensure the film watcher record is added to the database
+            }
+        }
 
-        //    var mockSet = new Mock<DbSet<Actor>>();
-        //    mockSet.As<IQueryable<Actor>>().Setup(m => m.Provider).Returns(actors.Provider);
-        //    mockSet.As<IQueryable<Actor>>().Setup(m => m.Expression).Returns(actors.Expression);
-        //    mockSet.As<IQueryable<Actor>>().Setup(m => m.ElementType).Returns(actors.ElementType);
-        //    mockSet.As<IQueryable<Actor>>().Setup(m => m.GetEnumerator()).Returns(actors.GetEnumerator());
-        //    _mockContext.Setup(c => c.Actors).Returns(mockSet.Object);
+        [Test]
+        public async Task MarkAsWatchedAsync_ExistingWatcher_ThrowsException()
+        {
+            // Arrange
+            var filmId = 1;
+            var userId = "user123";
 
-        //    // Act & Assert
-        //    Assert.IsFalse(await _service.ActorExistsAsync(999));
-        //}
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
 
+            using (var context = new ApplicationDbContext(options))
+            {
+                // Seed the database with an existing film watcher record
+                context.FilmWatchers.Add(new FilmWatcher { FilmId = filmId, HelperId = userId });
+                context.SaveChanges();
 
-        //[Test]s
-        //public async Task AllActorsAsync_ReturnsAllActors()
-        //{
-        //    // Arrange similar to ActorExistsAsync, but return a list of actors
+                var service = new FilmService(context);
 
-        //    var actors = new List<Actor>
-        //    {
-        //       new Actor { Id = 1, ActorName = "John Doe" },
-        //       new Actor { Id = 2, ActorName = "Jabe Eod" }
-        //    }.AsQueryable();
-
-        //    // Act
-        //    var result = await _service.AllActorsAsync();
-
-        //    // Assert
-        //    Assert.That(result.Count(), Is.EqualTo(2)); // assuming 2 actors in the setup
-        //}
-
-        //[Test]
-        //public async Task AllActorsNamesAsync_ReturnsDistinctActorNames()
-        //{
-        //    // Arrange & Act similar to above, specifically testing distinct functionality
-        //    var actors = new List<Actor>
-        //    {
-        //       new Actor { Id = 1, ActorName = "John Doe" },
-        //       new Actor { Id = 2, ActorName = "Jabe Eod" }
-        //    }.AsQueryable();
-
-        //    //Act
+                // Act & Assert
+                Assert.ThrowsAsync<InvalidOperationException>(() => service.MarkAsWatchedAsync(filmId, userId));
+            }
+        }
 
 
-        //    // Assert
-        //    Assert.AreEqual(expectedNames.Count, result.Count());
-        //}
+
+
+
     }
 }
