@@ -61,7 +61,7 @@ namespace FilmsToWatch.UnitTests
         {
             // Arrange
             var genreService = new GenreService(_context);
-            var genre = new Genre { Id=1, GenreName = "Drama" };
+            var genre = new Genre { Id=5, GenreName = "Drama" };
 
             // Act
             var result = await genreService.AddAsync(genre);
@@ -82,7 +82,7 @@ namespace FilmsToWatch.UnitTests
 
             using (var setupContext = new ApplicationDbContext(options))
             {
-                setupContext.Genre.Add(new Genre { Id = 2, GenreName = "Drama" });
+                setupContext.Genre.Add(new Genre { Id = 5, GenreName = "Drama" });
                 await setupContext.SaveChangesAsync();
             }
 
@@ -91,13 +91,13 @@ namespace FilmsToWatch.UnitTests
                 var genreService = new GenreService(testContext);
 
                 // Act
-                var result = await genreService.DeleteAsync(2);
+                var result = await genreService.DeleteAsync(5);
 
                 // Assert
                 Assert.IsTrue(result, "Genre should be deleted successfully");
 
                 // Additional verification to ensure the genre was deleted
-                var genreInDb = await testContext.Genre.FirstOrDefaultAsync(g => g.Id == 2);
+                var genreInDb = await testContext.Genre.FirstOrDefaultAsync(g => g.Id == 5);
                 Assert.IsNull(genreInDb, "Genre should no longer exist in the database");
             }
         }

@@ -44,12 +44,12 @@ namespace FilmsToWatch.UnitTests
 
             var result = await actorService.AddAsync(new Actor()
             {
-                Id = 1,
+                Id = 3,
                 ActorName = "Test",
                 FilmsInvolve = 5
             });
 
-            var dbActor = await actorService.GetByIdAsync(1);
+            var dbActor = await actorService.GetByIdAsync(3);
 
             Assert.IsTrue(result);
             Assert.That(dbActor.ActorName, Is.EqualTo("Test"));
@@ -64,7 +64,7 @@ namespace FilmsToWatch.UnitTests
             using (var context = new ApplicationDbContext(_options))
             {
                 var service = new ActorService(context);
-                var actorId = 1;
+                var actorId = 3;
 
                 // Act
                 var result = await service.DeleteAsync(actorId);
@@ -144,5 +144,11 @@ namespace FilmsToWatch.UnitTests
             }
         }
 
+
+        [TearDown]
+        public void TearDown()
+        {
+            _context.Dispose();
+        }
     }
 }

@@ -16,15 +16,7 @@ namespace FilmsToWatch.UnitTests
     [TestFixture]
     public class FilmServiceTests
     {
-        //private Mock<ApplicationDbContext> _mockContext;
-        //private FilmService _service;
 
-        //[SetUp]
-        //public void Setup()
-        //{
-        //    _mockContext = new Mock<ApplicationDbContext>();
-        //    _service = new FilmService(_mockContext.Object);
-        //}
         private ApplicationDbContext _context;
 
         [SetUp]
@@ -110,44 +102,11 @@ namespace FilmsToWatch.UnitTests
             }
         }
 
-        //[Test]
-        //public async Task GetWatchedFilmsAsync_ReturnsWatchedFilmsForUser()
-        //{
-        //    // Arrange
-        //    var userId = "user123";
-        //    var films = new List<Film>
-        //    {
-        //        new Film { Id = 1, Title = "Film1" },
-        //        new Film { Id = 2, Title = "Film2" }
-        //    };
-        //    var filmWatchers = new List<FilmWatcher>
-        //    {
-        //        new FilmWatcher { HelperId = userId, FilmId = 1 },
-        //        new FilmWatcher { HelperId = userId, FilmId = 2 }
-        //    };
 
-        //    var filmWatchersQueryable = filmWatchers.AsQueryable();
-
-        //    var mockSet = new Mock<DbSet<FilmWatcher>>();
-        //    mockSet.As<IQueryable<FilmWatcher>>().Setup(m => m.Provider).Returns(filmWatchersQueryable.Provider);
-        //    mockSet.As<IQueryable<FilmWatcher>>().Setup(m => m.Expression).Returns(filmWatchersQueryable.Expression);
-        //    mockSet.As<IQueryable<FilmWatcher>>().Setup(m => m.ElementType).Returns(filmWatchersQueryable.ElementType);
-        //    mockSet.As<IQueryable<FilmWatcher>>().Setup(m => m.GetEnumerator()).Returns(filmWatchersQueryable.GetEnumerator());
-
-        //    var mockContext = new Mock<ApplicationDbContext>();
-        //    mockContext.Setup(c => c.FilmWatchers).Returns(mockSet.Object);
-
-        //    var service = new FilmService(mockContext.Object);
-
-        //    // Act
-        //    var result = await service.GetWatchedFilmsAsync(userId);
-
-        //    // Assert
-        //    Assert.AreEqual(films.Count, result.Count());
-        //    Assert.AreEqual(films.Select(f => f.Id), result.Select(f => f.Id));
-        //}
-
-
-
+        [TearDown]
+        public void TearDown()
+        {
+            _context.Dispose();
+        }
     }
 }

@@ -86,7 +86,7 @@ namespace FilmsToWatch.UnitTests
         {
             // Arrange
             var model = new ReviewCreateViewModel { Id = 123, Content = "Updated content" };
-            var existingReview = new Review { Id = 1, Content = "Old content", FilmId = 123 };
+            var existingReview = new Review { Id = 4, Content = "Old content", FilmId = 123 };
             var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .Options;
@@ -102,12 +102,12 @@ namespace FilmsToWatch.UnitTests
                 var service = new ReviewService(context);
 
                 // Act
-                var result = await service.EditAsync(1, model);
+                var result = await service.EditAsync(4, model);
 
                 // Assert
                 Assert.AreEqual(model.Id, result); // Ensure the correct film ID is returned
 
-                var updatedReview = await context.Reviews.FindAsync(1);
+                var updatedReview = await context.Reviews.FindAsync(4);
                 Assert.AreEqual(model.Content, updatedReview.Content); // Ensure the review content is updated
             }
         }
@@ -116,7 +116,7 @@ namespace FilmsToWatch.UnitTests
         public async Task EditAsync_NonExistingReview_ThrowsException()
         {
             // Arrange
-            var model = new ReviewCreateViewModel { Id = 1, Content = "Updated content" };
+            var model = new ReviewCreateViewModel { Id = 6, Content = "Updated content" };
             var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .Options;
@@ -126,7 +126,7 @@ namespace FilmsToWatch.UnitTests
                 var service = new ReviewService(context);
 
                 // Act & Assert
-                Assert.ThrowsAsync<KeyNotFoundException>(() => service.EditAsync(1, model));
+                Assert.ThrowsAsync<KeyNotFoundException>(() => service.EditAsync(6, model));
             }
         }
 
@@ -141,7 +141,7 @@ namespace FilmsToWatch.UnitTests
             // Seed the database with some test data
             using (var context = new ApplicationDbContext(options))
             {
-                context.Reviews.Add(new Review { Id = 1, Content = "Test Review" });
+                context.Reviews.Add(new Review { Id = 7, Content = "Test Review" });
                 await context.SaveChangesAsync();
             }
 
@@ -151,10 +151,10 @@ namespace FilmsToWatch.UnitTests
                 var service = new ReviewService(context);
 
                 // Act
-                await service.DeleteAsync(1);
+                await service.DeleteAsync(7);
 
                 // Assert
-                var deletedReview = await context.Reviews.FindAsync(1);
+                var deletedReview = await context.Reviews.FindAsync(7);
                 Assert.Null(deletedReview);
             }
 
@@ -342,6 +342,13 @@ namespace FilmsToWatch.UnitTests
                 // Assert
                 Assert.IsNull(result);
             }
+        }
+
+
+        [TearDown]
+        public void TearDown()
+        {
+            _context.Dispose();
         }
     }
 }
