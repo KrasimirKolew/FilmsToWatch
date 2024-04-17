@@ -1,6 +1,11 @@
 ﻿@model IEnumerable<FilmsToWatch.Data.Models.Film>
 
-<h2>Films Watched by Me</h2>
+@{
+    ViewBag.Title = "Films Watched by Me";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
 
 @if (Model.Any())
 {
