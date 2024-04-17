@@ -2,7 +2,6 @@
 using FilmsToWatch.Repositories.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace FilmsToWatch.Controllers
 {

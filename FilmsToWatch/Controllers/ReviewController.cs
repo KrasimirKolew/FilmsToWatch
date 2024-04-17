@@ -1,9 +1,7 @@
-﻿using FilmsToWatch.Constants;
-using FilmsToWatch.Extensions;
+﻿using FilmsToWatch.Extensions;
 using FilmsToWatch.Models.ReviewModels;
 using FilmsToWatch.Repositories.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
 
 namespace FilmsToWatch.Controllers
 {

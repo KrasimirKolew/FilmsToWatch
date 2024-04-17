@@ -1,11 +1,7 @@
-﻿using FilmsToWatch.Data.Models;
-using FilmsToWatch.Extensions;
-using FilmsToWatch.Models.FilmModels;
+﻿using FilmsToWatch.Models.FilmModels;
 using FilmsToWatch.Repositories.Contracts;
-using FilmsToWatch.Repositories.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 
 namespace FilmsToWatch.Controllers

@@ -2,15 +2,7 @@
 using FilmsToWatch.Data.Models;
 using FilmsToWatch.Models.ReviewModels;
 using FilmsToWatch.Repositories.Contracts;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using NuGet.Protocol.Core.Types;
-using System.ComponentModel.Design;
-using System.Globalization;
-using System.Runtime.Serialization;
-using System.Xml.Linq;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FilmsToWatch.Repositories.Services
 {

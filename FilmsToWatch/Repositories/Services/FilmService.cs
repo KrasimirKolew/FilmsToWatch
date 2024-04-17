@@ -4,8 +4,6 @@ using FilmsToWatch.Models.FilmModels;
 using FilmsToWatch.Repositories.Contracts;
 using FilmsToWatch.Repositories.Extension;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using System.Threading.Tasks.Sources;
 
 namespace FilmsToWatch.Repositories.Services
 {

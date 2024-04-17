@@ -1,6 +1,5 @@
 ﻿using FilmsToWatch.Data.Models;
 using FilmsToWatch.Repositories.Contracts;
-using FilmsToWatch.Repositories.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

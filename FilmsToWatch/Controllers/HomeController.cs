@@ -1,11 +1,9 @@
-﻿using FilmsToWatch.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace FilmsToWatch.Controllers
 {
-	public class HomeController : BaseController
+    public class HomeController : BaseController
     {
 		private readonly ILogger<HomeController> _logger;
 
