@@ -101,6 +101,7 @@ namespace FilmsToWatch.UnitTests
                 Assert.IsNull(genreInDb, "Genre should no longer exist in the database");
             }
         }
+
         [Test]
         public async Task ListAsync_ReturnsAllGenres()
         {
@@ -117,6 +118,45 @@ namespace FilmsToWatch.UnitTests
                 Assert.AreEqual(2, genres.Count);
             }
         }
+
+        [Test]
+        public async Task UpdateAsync_GenreExists_ShouldUpdateGenre()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new GenreService(context);
+                var updatedGenre = new Genre { Id = 1, GenreName = "UpdatedGenre" };
+
+                // Act
+                var result = await service.UpdateAsync(updatedGenre);
+
+                // Assert
+                Assert.IsTrue(result);
+
+                var genreFromDb = await context.Genre.FindAsync(1);
+                Assert.IsNotNull(genreFromDb);
+                Assert.AreEqual("UpdatedGenre", genreFromDb.GenreName);
+            }
+        }
+
+        [Test]
+        public async Task UpdateAsync_GenreDoesNotExist_ShouldReturnFalse()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new GenreService(context);
+                var nonExistentGenre = new Genre { Id = 100, GenreName = "NonExistentGenre" };
+
+                // Act
+                var result = await service.UpdateAsync(nonExistentGenre);
+
+                // Assert
+                Assert.IsFalse(result);
+            }
+        }
+
         [TearDown]
         public void TearDown()
         {
