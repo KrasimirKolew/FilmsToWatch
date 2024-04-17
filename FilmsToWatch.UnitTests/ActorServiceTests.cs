@@ -91,5 +91,41 @@ namespace FilmsToWatch.UnitTests
                 Assert.IsFalse(result);
             }
         }
+        [Test]
+        public async Task UpdateAsync_UpdatesExistingActor()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ActorService(context);
+                var actorToUpdate = await context.Actors.FindAsync(1);
+                actorToUpdate.ActorName = "UpdatedActorName";
+
+                // Act
+                var result = await service.UpdateAsync(actorToUpdate);
+
+                // Assert
+                Assert.IsTrue(result);
+                var updatedActor = await context.Actors.FindAsync(1);
+                Assert.AreEqual("UpdatedActorName", updatedActor.ActorName);
+            }
+        }
+
+        [Test]
+        public async Task UpdateAsync_ReturnsFalseForNonExistingActor()
+        {
+            // Arrange
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new ActorService(context);
+                var nonExistingActor = new Actor { Id = 99, ActorName = "NonExistingActor" }; // Assuming actor with ID 99 does not exist
+
+                // Act
+                var result = await service.UpdateAsync(nonExistingActor);
+
+                // Assert
+                Assert.IsFalse(result);
+            }
+        }
     }
 }
