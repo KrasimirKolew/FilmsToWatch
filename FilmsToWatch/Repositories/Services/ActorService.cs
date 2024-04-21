@@ -8,6 +8,7 @@ namespace FilmsToWatch.Repositories.Services
     public class ActorService : IActorService
     {
         private readonly ApplicationDbContext context;
+        //here i shoud use repository
 
         public ActorService(ApplicationDbContext _context)
         {

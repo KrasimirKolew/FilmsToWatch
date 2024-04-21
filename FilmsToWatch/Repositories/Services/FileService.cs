@@ -32,9 +32,9 @@ namespace FilmsToWatch.Repositories.Services
                 // we are trying to create a unique filename here
                 var newFileName = uniqueString + ext;
                 var fileWithPath = Path.Combine(path, newFileName);
-                var stream = new FileStream(fileWithPath, FileMode.Create);
-                imageFile.CopyTo(stream);
-                stream.Close();
+                using
+                    var stream = new FileStream(fileWithPath, FileMode.Create);
+                imageFile.CopyToAsync(stream);
                 return new Tuple<int, string>(1, newFileName);
             }
             catch (Exception ex)
@@ -58,6 +58,7 @@ namespace FilmsToWatch.Repositories.Services
             }
             catch (Exception ex)
             {
+                //we shudunt do that
                 return false;
             }
         }
