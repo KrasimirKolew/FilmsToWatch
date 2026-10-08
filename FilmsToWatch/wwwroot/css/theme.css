@@ -1,0 +1,670 @@
+﻿/* ==========================================================
+   FilmsToWatch theme
+   Loaded after bootstrap.css, forms.css and site.css,
+   so it overrides their colours on every page.
+   ========================================================== */
+
+:root {
+    --bg: #0F172A;
+    --card: #1E293B;
+    --accent: #8B5CF6;
+    --accent-hover: #7C4DEB;
+    --text: #F8FAFC;
+    --text-muted: rgba(248, 250, 252, 0.68);
+    --border: #334155;
+    --danger: #F87171;
+    --warning: #FBBF24;
+    --radius-sm: 8px;
+    --radius: 14px;
+    --font: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    /* Used by the old forms.css styles */
+    --primary-color: var(--text);
+}
+
+/* ---------- Page ---------- */
+
+html {
+    font-size: 16px;
+    min-height: 100%;
+}
+
+    html body {
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+        line-height: 1.6;
+    }
+
+.site-main {
+    flex: 1 0 auto;
+    width: 100%;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text);
+    font-family: var(--font);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+h1, h2 {
+    font-stretch: 75%;
+    font-weight: 800;
+}
+
+p, li, td, th, label, span, dd, dt {
+    color: inherit;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+    a:hover {
+        color: var(--text);
+    }
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--border);
+    opacity: 1;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.text-danger {
+    color: var(--danger) !important;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ---------- Navbar ---------- */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+}
+
+    .site-header .navbar {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .site-header .navbar-brand {
+        color: var(--text);
+        font-weight: 800;
+        font-stretch: 75%;
+        font-size: 1.5rem;
+        letter-spacing: 0.01em;
+        word-break: normal;
+    }
+
+        .site-header .navbar-brand:hover {
+            color: var(--text);
+        }
+
+.brand-dot {
+    color: var(--accent);
+}
+
+.site-header .nav-link,
+.site-header .nav-link.text-dark,
+.site-header .btn-link.nav-link {
+    color: var(--text-muted) !important;
+    font-weight: 500;
+    padding: 0.5rem 0.75rem !important;
+    border-radius: var(--radius-sm);
+    box-shadow: none;
+    background: none;
+    margin: 0;
+}
+
+    .site-header .nav-link:hover,
+    .site-header .btn-link.nav-link:hover {
+        color: var(--text) !important;
+        background: var(--card);
+    }
+
+.site-header .navbar-toggler {
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.6rem;
+}
+
+    .site-header .navbar-toggler:focus {
+        box-shadow: 0 0 0 2px var(--accent);
+    }
+
+.site-header .navbar-toggler-icon {
+    /* Light hamburger icon for the dark background */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28248, 250, 252, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.site-header .form-inline {
+    margin: 0;
+}
+
+/* When the menu is collapsed (phones, tablets) the opened menu gets a little separation */
+@media (max-width: 991.98px) {
+    .site-header .navbar-collapse {
+        margin-top: 0.75rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid var(--border);
+    }
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+    flex-shrink: 0;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    padding: 1.25rem 0;
+    text-align: center;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+    font-family: var(--font);
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    box-shadow: none;
+    padding: 0.55rem 1.1rem;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-primary,
+.btn-default,
+.btn-info {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+    .btn-primary:hover,
+    .btn-default:hover,
+    .btn-info:hover,
+    .btn-primary:focus,
+    .btn-default:focus,
+    .btn-info:focus {
+        background: var(--accent-hover);
+        border-color: var(--accent-hover);
+        color: #fff;
+    }
+
+.btn-sec,
+.btn-secondary,
+.btn-dark {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text);
+}
+
+    .btn-sec:hover,
+    .btn-secondary:hover,
+    .btn-dark:hover {
+        background: var(--card);
+        border-color: var(--text-muted);
+        color: var(--text);
+    }
+
+.btn-warning {
+    background: transparent;
+    border-color: var(--warning);
+    color: var(--warning);
+}
+
+    .btn-warning:hover {
+        background: var(--warning);
+        color: var(--bg);
+    }
+
+.btn-danger {
+    background: transparent;
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+    .btn-danger:hover {
+        background: var(--danger);
+        border-color: var(--danger);
+        color: var(--bg);
+    }
+
+.btn.disabled,
+.btn:disabled,
+.btn-primary.disabled,
+.btn-primary:disabled {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    opacity: 0.35;
+}
+
+/* ---------- Cards ---------- */
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    overflow: hidden;
+}
+
+.card-footer {
+    background: transparent;
+    border-top: 1px solid var(--border);
+}
+
+.card .movie-image {
+    background: var(--bg);
+    padding: 1rem 0;
+}
+
+    .card .movie-image img {
+        border-radius: var(--radius-sm);
+    }
+
+.card-body h4 {
+    font-size: 1.25rem;
+}
+
+.card-body h6 {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+    .card-body h6 b {
+        color: var(--text);
+    }
+
+/* Buttons inside a film card */
+.all-buttons {
+    gap: 0.5rem;
+}
+
+    .all-buttons form {
+        margin: 0;
+    }
+
+    .all-buttons .btn {
+        margin: 0;
+    }
+
+/* ---------- Forms ---------- */
+
+.form-control,
+.form-select,
+.input,
+select.form-control {
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    box-shadow: none;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.75rem;
+}
+
+    .form-control:focus,
+    .form-select:focus,
+    .input:focus {
+        background-color: var(--bg);
+        border-color: var(--accent);
+        color: var(--text);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+    }
+
+    .form-control::placeholder,
+    .input::placeholder {
+        color: var(--text-muted);
+    }
+
+    select.form-control option {
+        background: var(--card);
+        color: var(--text);
+    }
+
+input[type="file"] {
+    color: var(--text-muted);
+    max-width: 100%;
+}
+
+    input[type="file"]::file-selector-button {
+        background: var(--card);
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 0.45rem 0.9rem;
+        margin-right: 0.75rem;
+        cursor: pointer;
+        font-family: var(--font);
+    }
+
+label,
+.form-label,
+.form-label-add-edit {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Bootstrap floating labels (Login / Register) */
+.form-floating > .form-control {
+    min-height: 3.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.form-floating > label {
+    padding-top: 1rem;
+}
+
+/* Admin forms (Add / Edit film, genre, actor) */
+form.w-40 {
+    max-width: 640px;
+    margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+}
+
+.input-container {
+    align-items: center;
+    gap: 0.75rem;
+}
+
+    .input-container > label.w-40,
+    .input-container > span.w-40 {
+        flex: 0 0 30%;
+        padding-top: 0;
+        margin: 0;
+    }
+
+.message-box {
+    color: var(--danger);
+    font-size: 0.9rem;
+}
+
+.alert {
+    background: rgba(139, 92, 246, 0.14);
+    border: 1px solid rgba(139, 92, 246, 0.45);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    box-shadow: none;
+}
+
+/* On phones, form labels go above their fields */
+@media (max-width: 575.98px) {
+    form.w-40 {
+        padding: 1.25rem;
+    }
+
+    .input-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.35rem;
+    }
+
+        .input-container > label.w-40,
+        .input-container > span.w-40 {
+            flex-basis: auto;
+        }
+
+    .pd-x-28 {
+        padding-left: 0;
+    }
+}
+
+/* ---------- Tables ---------- */
+
+.table,
+.tbl-container table {
+    color: var(--text);
+    border-color: var(--border);
+    --bs-table-bg: transparent;
+    --bs-table-striped-bg: transparent;
+    --bs-table-accent-bg: transparent;
+}
+
+    .table > :not(caption) > * > * {
+        background: transparent;
+        color: var(--text);
+        border-bottom-color: var(--border);
+    }
+
+.tbl-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    overflow-x: auto;
+}
+
+    .tbl-container table tr:nth-child(even) {
+        background-color: rgba(51, 65, 85, 0.35);
+    }
+
+    .tbl-container table th,
+    .table th {
+        color: var(--text-muted);
+        font-weight: 600;
+    }
+
+/* ---------- Film details page ---------- */
+
+.detail-content {
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+    .detail-content .img-container img {
+        max-width: 100%;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+    }
+
+.detail-container h3,
+.detail-container h4 {
+    font-stretch: 100%;
+    font-weight: 600;
+}
+
+/* ==========================================================
+   Home page
+   ========================================================== */
+
+.home-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: center;
+    padding: 2rem 0 4rem;
+}
+
+.home-title {
+    font-size: clamp(3rem, 12vw, 5.75rem);
+    font-weight: 800;
+    font-stretch: 62%;
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.25rem;
+}
+
+.home-title-line {
+    display: block;
+}
+
+    .home-title-line + .home-title-line {
+        color: var(--accent);
+    }
+
+.home-lead {
+    color: var(--text-muted);
+    font-size: 1.125rem;
+    max-width: 34ch;
+    margin: 0 0 2rem;
+}
+
+.home-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+    .home-actions .btn {
+        padding: 0.75rem 1.4rem;
+        margin: 0;
+    }
+
+/* The screen with the carousel */
+.home-screen {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.75rem;
+    box-shadow: 0 30px 60px -30px rgba(139, 92, 246, 0.45);
+}
+
+    .home-screen .carousel,
+    .home-screen .carousel-inner {
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+    }
+
+    .home-screen .carousel-item img {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        display: block;
+    }
+
+    .home-screen .carousel-indicators {
+        margin-bottom: 0.75rem;
+    }
+
+        .home-screen .carousel-indicators [data-bs-target] {
+            width: 24px;
+            height: 4px;
+            border-radius: 2px;
+            border: 0;
+            background-color: var(--text);
+        }
+
+        .home-screen .carousel-indicators .active {
+            background-color: var(--accent);
+        }
+
+/* How it works */
+.home-steps {
+    border-top: 1px solid var(--border);
+    padding-top: 3rem;
+}
+
+    .home-steps h2 {
+        font-size: 1.75rem;
+        margin: 0 0 1.5rem;
+    }
+
+    .home-steps ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.25rem;
+    }
+
+.home-step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+}
+
+.home-step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.home-step h3 {
+    font-size: 1.15rem;
+    margin: 0 0 0.4rem;
+}
+
+.home-step p {
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.site-header .navbar-text {
+    display: block;
+    color: var(--text-muted);
+    padding: 0.5rem 0.75rem;
+    line-height: 1.5;
+}
+
+@media (min-width: 992px) {
+    .site-header .navbar-nav {
+        align-items: center;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .home-hero {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding-top: 0.5rem;
+    }
+
+    .home-lead {
+        max-width: 46ch;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .home-steps ol {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .home-actions .btn {
+        flex: 1 1 100%;
+        text-align: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carousel-item {
+        transition: none;
+    }
+}

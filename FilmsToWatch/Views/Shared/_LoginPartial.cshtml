@@ -12,8 +12,8 @@
             <a class="nav-link text-dark" asp-area="SuperAdmin" asp-controller="Home" asp-action="AddRole" title="Manage">SuperAdminInterface</a>
         </li>
     }
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+    <li class="nav-item d-none d-lg-block">
+            <span class="navbar-text">Hello @User.Identity?.Name!</span>
     </li>
     <li class="nav-item">
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
