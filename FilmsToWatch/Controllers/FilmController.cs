@@ -70,26 +70,40 @@ namespace FilmsToWatch.Controllers
         public async Task<IActionResult> Add(FilmFormModel model)
         {
 
+            ModelState.Remove(nameof(model.MovieImage));
+
+            if (await _filmService.GenreExistsAsync(model.GenreId) == false)
+            {
+                ModelState.AddModelError(nameof(model.GenreId), "Genre does not exist");
+            }
+
+            if (await _filmService.ActorExistsAsync(model.ActorId) == false)
+            {
+                ModelState.AddModelError(nameof(model.ActorId), "Actor does not exist. Add an actor first.");
+            }
+
             if (ModelState.IsValid == false)
             {
                 model.Genres = await _filmService.AllGenresAsync();
                 model.Actors = await _filmService.AllActorsAsync();
-
                 return View(model);
             }
 
-
-            var fileResult = await _fileService.SaveImageAsync(model.ImageFile);
-            if (fileResult.Success == false)
+            if (model.ImageFile != null && model.ImageFile.Length > 0)
             {
-                ModelState.AddModelError(nameof(model.ImageFile), fileResult.ErrorMessage);
-                model.Genres = await _filmService.AllGenresAsync();
-                model.Actors = await _filmService.AllActorsAsync();
-                return View(model);
+                var fileResult = await _fileService.SaveImageAsync(model.ImageFile);
+                if (fileResult.Success == false)
+                {
+                    ModelState.AddModelError(nameof(model.ImageFile), fileResult.ErrorMessage);
+                    model.Genres = await _filmService.AllGenresAsync();
+                    model.Actors = await _filmService.AllActorsAsync();
+                    return View(model);
+                }
+                model.MovieImage = fileResult.FileName;
             }
-            model.MovieImage = fileResult.FileName;
 
-            var result = await _filmService.AddFilmAsync(model);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            await _filmService.AddFilmAsync(model, userId);
             TempData["msg"] = "Added Successfully";
 
             return RedirectToAction(nameof(Add));

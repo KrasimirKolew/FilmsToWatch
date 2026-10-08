@@ -5,7 +5,7 @@ namespace FilmsToWatch.Repositories.Contracts
 {
     public interface IFilmService
     {
-        Task<int> AddFilmAsync(FilmFormModel model);
+        Task<int> AddFilmAsync(FilmFormModel model, string userId);
         Task EditFilmAsync(int filmId, FilmFormModel model);
         Task<Film> GetFilmByIdAsync(int id);
         Task<bool> ExistsAsync(int id);

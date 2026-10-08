@@ -21,17 +21,17 @@ namespace FilmsToWatch.Repositories.Services
             return await context.Actors.AnyAsync(a=>a.Id == actorId);
         }
 
-        public async Task<int> AddFilmAsync(FilmFormModel model)
+        public async Task<int> AddFilmAsync(FilmFormModel model, string userId)
         {
             Film film = new Film()
             {
                 Title = model.Title,
-                MovieImage = model.MovieImage,
+                MovieImage = model.MovieImage ?? string.Empty,
                 ReleaseYear = model.ReleaseYear,
                 Director = model.Director,
                 GenreId = model.GenreId,
                 ActorId = model.ActorId,
-                FilmAdderId = "fd0dba54-c56f-4bc0-8c3c-6acce711f0e4"
+                FilmAdderId = userId
             };
             context.Add(film);
             await context.SaveChangesAsync();
