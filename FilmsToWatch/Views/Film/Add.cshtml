@@ -15,10 +15,10 @@
 
     <div class="input-container">
         <label asp-for="Director" class="w-40">Image</label>
-        <input type="file" asp-for="ImageFile">
+        <input type="file" asp-for="ImageFile" accept=".jpg,.jpeg,.png,.gif,.webp,image/*">
     </div>
     <div class="message-box pd-x-28 error">
-        <span asp-validation-for="ImageFile"> </span>
+        <span asp-validation-for="ImageFile" class="text-danger"> </span>
     </div>
 
     <div class="mb-3">

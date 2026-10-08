@@ -4,63 +4,109 @@ namespace FilmsToWatch.Repositories.Services
 {
     public class FileService : IFileService
     {
+        private const string UploadsFolder = "Uploads";
+
+        // 10 MB
+        private const long MaxFileSizeBytes = 10 * 1024 * 1024;
+
+        private static readonly string[] AllowedExtensions =
+            { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+
         private readonly IWebHostEnvironment environment;
-        public FileService(IWebHostEnvironment env)
+        private readonly ILogger<FileService> logger;
+
+        public FileService(IWebHostEnvironment environment, ILogger<FileService> logger)
         {
-            this.environment = env;
+            this.environment = environment;
+            this.logger = logger;
         }
-        public Tuple<int, string> SaveImage(IFormFile imageFile)
+
+        public async Task<ImageSaveResult> SaveImageAsync(IFormFile imageFile)
         {
+            if (imageFile == null || imageFile.Length == 0)
+            {
+                return ImageSaveResult.Fail("The selected file is empty.");
+            }
+
+            if (imageFile.Length > MaxFileSizeBytes)
+            {
+                return ImageSaveResult.Fail(
+                    $"The image is too large. The maximum size is {MaxFileSizeBytes / (1024 * 1024)} MB.");
+            }
+
+            var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
+            if (!AllowedExtensions.Contains(extension))
+            {
+                return ImageSaveResult.Fail(
+                    $"Only {string.Join(", ", AllowedExtensions)} files are allowed.");
+            }
+
+            if (string.IsNullOrEmpty(imageFile.ContentType)
+                || !imageFile.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+            {
+                return ImageSaveResult.Fail("The selected file is not an image.");
+            }
+
             try
             {
-                var wwwPath = this.environment.WebRootPath;
-                var path = Path.Combine(wwwPath, "Uploads");
-                if (!Directory.Exists(path))
+                var uploadsPath = GetUploadsPath();
+                Directory.CreateDirectory(uploadsPath); // does nothing if it already exists
+
+                var newFileName = Guid.NewGuid().ToString() + extension;
+                var fullPath = Path.Combine(uploadsPath, newFileName);
+
+                // Await the copy so the whole file is written before the stream is closed
+                await using (var stream = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
                 {
-                    Directory.CreateDirectory(path);
+                    await imageFile.CopyToAsync(stream);
                 }
 
-                // Check the allowed extenstions
-                var ext = Path.GetExtension(imageFile.FileName);
-                var allowedExtensions = new string[] { ".jpg", ".png", ".jpeg" };
-                if (!allowedExtensions.Contains(ext))
-                {
-                    string msg = string.Format("Only {0} extensions are allowed", string.Join(",", allowedExtensions));
-                    return new Tuple<int, string>(0, msg);
-                }
-                string uniqueString = Guid.NewGuid().ToString();
-                // we are trying to create a unique filename here
-                var newFileName = uniqueString + ext;
-                var fileWithPath = Path.Combine(path, newFileName);
-                using
-                    var stream = new FileStream(fileWithPath, FileMode.Create);
-                imageFile.CopyToAsync(stream);
-                return new Tuple<int, string>(1, newFileName);
+                return ImageSaveResult.Ok(newFileName);
             }
             catch (Exception ex)
             {
-                return new Tuple<int, string>(0, "Error has occured");
+                logger.LogError(ex, "Saving image {FileName} failed", imageFile.FileName);
+
+                // Shown only on the admin film form, so the real reason helps with fixing it
+                return ImageSaveResult.Fail($"The image could not be saved: {ex.Message}");
             }
         }
 
-        public bool DeleteImage(string imageFileName)
+        public bool DeleteImage(string? imageFileName)
         {
+            if (string.IsNullOrWhiteSpace(imageFileName))
+            {
+                return false;
+            }
+
             try
             {
-                var wwwPath = this.environment.WebRootPath;
-                var path = Path.Combine(wwwPath, "Uploads\\", imageFileName);
-                if (System.IO.File.Exists(path))
+                // Path.GetFileName stops names like "../x" from escaping the Uploads folder
+                var fullPath = Path.Combine(GetUploadsPath(), Path.GetFileName(imageFileName));
+
+                if (File.Exists(fullPath))
                 {
-                    System.IO.File.Delete(path);
+                    File.Delete(fullPath);
                     return true;
                 }
+
                 return false;
             }
             catch (Exception ex)
             {
-                //we shudunt do that
+                logger.LogWarning(ex, "Deleting image {FileName} failed", imageFileName);
                 return false;
             }
+        }
+
+        private string GetUploadsPath()
+        {
+            // WebRootPath is null when the wwwroot folder is missing, so fall back to building it
+            var webRoot = environment.WebRootPath
+                ?? Path.Combine(environment.ContentRootPath, "wwwroot");
+
+            return Path.Combine(webRoot, UploadsFolder);
+
         }
     }
 }

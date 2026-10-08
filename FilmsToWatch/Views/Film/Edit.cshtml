@@ -15,12 +15,20 @@
         <span asp-validation-for="Title"> </span>
     </div>
 
+    @if (!string.IsNullOrEmpty(Model.MovieImage))
+    {
+        <div class="input-container">
+            <span class="w-40">Current image</span>
+            <img src="/Uploads/@Model.MovieImage" alt="Current image" style="max-width: 120px; max-height: 180px;" />
+        </div>
+    }
+
     <div class="input-container">
-        <label asp-for="Director" class="w-40">Image</label>
-        <input type="file" asp-for="ImageFile">
+        <label asp-for="ImageFile" class="w-40">New image (optional)</label>
+        <input type="file" asp-for="ImageFile" accept=".jpg,.jpeg,.png,.gif,.webp,image/*">
     </div>
     <div class="message-box pd-x-28 error">
-        <span asp-validation-for="ImageFile"> </span>
+        <span asp-validation-for="ImageFile" class="text-danger"> </span>
     </div>
 
     <div class="form-group">

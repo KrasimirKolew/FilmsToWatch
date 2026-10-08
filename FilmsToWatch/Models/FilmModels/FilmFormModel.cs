@@ -17,7 +17,7 @@ namespace FilmsToWatch.Models.FilmModels
         public string Title { get; set; } = string.Empty;
 
         [Display(Name = "Image")]
-        public string MovieImage { get; set; } = string.Empty;
+        public string? MovieImage { get; set; }
 
         [NotMapped]
         public IFormFile? ImageFile { get; set; }

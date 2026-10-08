@@ -79,17 +79,15 @@ namespace FilmsToWatch.Controllers
             }
 
 
-            if (model.ImageFile != null)
+            var fileResult = await _fileService.SaveImageAsync(model.ImageFile);
+            if (fileResult.Success == false)
             {
-                var fileReult = this._fileService.SaveImage(model.ImageFile);
-                if (fileReult.Item1 == 0)
-                {
-                    TempData["msg"] = "File could not saved";
-                    return View(model);
-                }
-                var imageName = fileReult.Item2;
-                model.MovieImage = imageName;
+                ModelState.AddModelError(nameof(model.ImageFile), fileResult.ErrorMessage);
+                model.Genres = await _filmService.AllGenresAsync();
+                model.Actors = await _filmService.AllActorsAsync();
+                return View(model);
             }
+            model.MovieImage = fileResult.FileName;
 
             var result = await _filmService.AddFilmAsync(model);
             TempData["msg"] = "Added Successfully";
@@ -119,10 +117,16 @@ namespace FilmsToWatch.Controllers
         public async Task<IActionResult> Edit(int id, FilmFormModel model)
         {
 
-            if (await _filmService.ExistsAsync(id) == false)
+            var film = await _filmService.GetFilmByIdAsync(id);
+
+            if (film == null)
             {
-                return BadRequest();
+                return NotFound();
             }
+
+            // Uploading a new image is optional when editing
+            ModelState.Remove(nameof(model.MovieImage));
+            ModelState.Remove(nameof(model.ImageFile));
 
             if (await _filmService.GenreExistsAsync(model.GenreId) == false)
             {
@@ -134,28 +138,37 @@ namespace FilmsToWatch.Controllers
                 ModelState.AddModelError(nameof(model.ActorId), "Actor does not exist");
             }
 
+            // Keep the current image unless a new one is uploaded
+            var oldImage = film.MovieImage;
+            model.MovieImage = oldImage;
+
             if (ModelState.IsValid == false)
             {
                 model.Genres = await _filmService.AllGenresAsync();
                 model.Actors = await _filmService.AllActorsAsync();
-
                 return View(model);
             }
 
-            if (model.ImageFile != null)
+            if (model.ImageFile != null && model.ImageFile.Length > 0)
             {
-                var fileReult = this._fileService.SaveImage(model.ImageFile);
-                if (fileReult.Item1 == 0)
+                var fileResult = await _fileService.SaveImageAsync(model.ImageFile);
+                if (fileResult.Success == false)
                 {
-                    TempData["msg"] = "File could not saved";
+                    ModelState.AddModelError(nameof(model.ImageFile), fileResult.ErrorMessage);
+                    model.Genres = await _filmService.AllGenresAsync();
+                    model.Actors = await _filmService.AllActorsAsync();
                     return View(model);
                 }
-                var imageName = fileReult.Item2;
-                model.MovieImage = imageName;
+                model.MovieImage = fileResult.FileName;
             }
 
-
             await _filmService.EditFilmAsync(id, model);
+
+            // A new image replaced the old one, so remove the old file
+            if (model.MovieImage != oldImage && !string.IsNullOrEmpty(oldImage))
+            {
+                _fileService.DeleteImage(oldImage);
+            }
 
             return RedirectToAction(nameof(All));
 
